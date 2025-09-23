@@ -10,7 +10,7 @@ const router = express.Router()
 router.post('/create', verifyToken, createFaculty)
 router.get('/getfaculty', getFaculty)
 
-router.delete('/deletefaculty/:facultyId/:userId', verifyToken, deleteFaculty)
-router.put('/updatefaculty/:facultyId/:userId', verifyToken, updateFaculty)
+router.delete('/deletefaculty/:facultyId', verifyToken, deleteFaculty)
+router.put('/:facultyId', verifyToken, updateFaculty)
 
 export default router;

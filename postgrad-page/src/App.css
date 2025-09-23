@@ -8,7 +8,9 @@
   --font-roboto: "Inter", sans-serif; 
 }
 
-
+body{
+  cursor:url('./assets/delsulogo.png');
+}
 
 /* ... */
 

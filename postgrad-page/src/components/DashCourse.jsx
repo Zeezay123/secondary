@@ -91,7 +91,7 @@ const DashCourse = () => {
     }
     // If department is just an ObjectId, find it in the departments array
     if (typeof department === 'string') {
-      const dept = departments.find((d) => d._id === department);
+      const dept = departments.find((d) => d.name === department);
       return dept ? dept.name : 'N/A';
     }
     return 'N/A';
@@ -104,8 +104,9 @@ const DashCourse = () => {
     }
     // If faculty is just an ObjectId, find it in the faculties array
     if (typeof faculty === 'string') {
-      const fac = faculties.find((f) => f._id === faculty);
-      return fac ? fac.name : 'N/A';
+      const fac = faculties.find((f) => f.name == faculty);
+     
+      return fac ? fac.name : 'not found'
     }
     return 'N/A';
   };
@@ -120,7 +121,7 @@ const DashCourse = () => {
   }
 
  const uploadImage = async() =>{
-  const cloudname = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
+  
 
   try {
     if(!imageFile){
@@ -133,18 +134,18 @@ const DashCourse = () => {
     // Create FormData inside the function after file is selected
     const imageData = new FormData()
     imageData.append('file', imageFile)
-    imageData.append('upload_preset', 'codelWebImagesPreset')
     
-    const res = await axios.post(`https://api.cloudinary.com/v1_1/${cloudname}/image/upload`,imageData,
-      {
+    const res = await axios.post(`/api/uploads/`,imageData,
+      {headers: { "Content-Type": "multipart/form-data" },
         onUploadProgress: (progressEvent)=>{
           const percent = Math.round((progressEvent.loaded * 100) / progressEvent.total)
           setUploadProgress(percent)
         }
       }
     )
+   
 
-    const url = res.data.secure_url
+    const url =res.data
 
     console.log(url)
     setDepartmentImage(url)
@@ -192,7 +193,7 @@ const DashCourse = () => {
       let endpoint;
       switch (type) {
         case 'faculty':
-          endpoint = `/api/faculty/deletefaculty/${id}/${currentUser._id}`;
+          endpoint = `/api/faculty/deletefaculty/${id}/${currentUser.id}`;
           break;
         case 'departments':
           endpoint = `/api/departments/${id}`;
@@ -213,7 +214,7 @@ const DashCourse = () => {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Failed to delete');
       }
-      
+      2
       alert(`${type} deleted successfully!`);
       fetchAllData();
     } catch (err) {
@@ -231,7 +232,7 @@ const DashCourse = () => {
 
   const handleEditSave = async () => {
     try {
-      await fetch(`/api/${editType}/${editData._id}`, {
+      await fetch(`/api/${editType}/${editData.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(editData),
@@ -304,7 +305,7 @@ const DashCourse = () => {
           <Label className="mt-3">Faculty</Label>
           <Select value={departmentFaculty} onChange={(e) => setDepartmentFaculty(e.target.value)}>
             <option value="">Select Faculty</option>
-            {faculties.map((f) => <option key={f._id} value={f._id}>{f.name}</option>)}
+            {faculties.map((f) => <option key={f.id} value={f.name}>{f.name}</option>)}
           </Select>
 
           <Label className='mt-3'> Department Image </Label>
@@ -332,7 +333,7 @@ const DashCourse = () => {
               { errMessage && <Alert color="failure" >{errMessage} </Alert>}
               
               {departmentImage && (
-                <img src={departmentImage} alt="Department preview" className="w-full h-32 object-cover mt-3 rounded" />
+                <img src={`/uploads/${departmentImage}`} alt="Department preview" className="w-full h-32 object-cover mt-3 rounded" />
               )}
 
   <Label className="mt-3">Description (Optional)</Label>
@@ -396,17 +397,17 @@ const DashCourse = () => {
             <option value="">Select Semester</option>
             <option value="First">First Semester</option>
             <option value="Second">Second Semester</option>
-            <option value="Both">Both Semesters</option>
+            <option value="Both">Both </option>
           </Select>
           <Label className="mt-3">Department</Label>
           <Select value={courseDepartment} onChange={(e) => setCourseDepartment(e.target.value)}>
             <option value="">Select Department</option>
-            {departments.map((d) => <option key={d._id} value={d._id}>{d.name}</option>)}
+            {departments.map((d) => <option key={d.id} value={d.id}>{d.name}</option>)}
           </Select>
           <Label className="mt-3">Faculty</Label>
           <Select value={courseFaculty} onChange={(e) => setCourseFaculty(e.target.value)}>
             <option value="">Select Faculty</option>
-            {faculties.map((f) => <option key={f._id} value={f._id}>{f.name}</option>)}
+            {faculties.map((f) => <option key={f.id} value={f.id}>{f.name}</option>)}
           </Select>
           <Label className="mt-3">Description (Optional)</Label>
           <TextInput 
@@ -454,11 +455,11 @@ const DashCourse = () => {
           </TableHead>
           <TableBody>
             {faculties.map((f) => (
-              <TableRow key={f._id}>
+              <TableRow key={f.id}>
                 <TableCell>{f.name}</TableCell>
                 <TableCell className="flex gap-2">
                   <Button size="xs" onClick={() => openEditModal('faculty', f)}>Edit</Button>
-                  <Button size="xs" color="failure" onClick={() => handleDelete('faculty', f._id)}>Delete</Button>
+                  <Button size="xs" color="failure" onClick={() => handleDelete('faculty', f.id)}>Delete</Button>
                 </TableCell>
               </TableRow>
             ))}
@@ -477,12 +478,12 @@ const DashCourse = () => {
           </TableHead>
           <TableBody>
             {departments.map((d) => (
-              <TableRow key={d._id}>
+              <TableRow key={d.id}>
                 <TableCell>{d.name}</TableCell>
                 <TableCell>{getFacultyName(d.faculty)}</TableCell>
                 <TableCell className="flex gap-2">
-                  <Button size="xs" onClick={() => openEditModal('department', d)}>Edit</Button>
-                  <Button size="xs" color="failure" onClick={() => handleDelete('departments', d._id)}>Delete</Button>
+                  <Button size="xs" onClick={() => openEditModal('departments', d)}>Edit</Button>
+                  <Button size="xs" color="failure" onClick={() => handleDelete('departments', d.id)}>Delete</Button>
                 </TableCell>
               </TableRow>
             ))}
@@ -505,16 +506,16 @@ const DashCourse = () => {
           </TableHead>
           <TableBody>
             {courses.map((course) => (
-              <TableRow key={course._id}>
+              <TableRow key={course.id}>
                 <TableCell>{course.code}</TableCell>
                 <TableCell>{course.name}</TableCell>
                 <TableCell>{course.credits}</TableCell>
-                <TableCell>{course.semester}</TableCell>
-                <TableCell>{getDepartmentName(course.department)}</TableCell>
-                <TableCell>{getFacultyName(course.faculty)}</TableCell>
+                <TableCell>{course.semesters}</TableCell>
+                <TableCell>{getDepartmentName(course.department_name,)}</TableCell>
+                <TableCell>{getFacultyName(course.faculty_name)}</TableCell>
                 <TableCell className="flex gap-2">
                   <Button size="xs" onClick={() => openEditModal('course', course)}>Edit</Button>
-                  <Button size="xs" color="failure" onClick={() => handleDelete('course', course._id)}>Delete</Button>
+                  <Button size="xs" color="failure" onClick={() => handleDelete('course', course.id)}>Delete</Button>
                 </TableCell>
               </TableRow>
             ))}
@@ -527,7 +528,7 @@ const DashCourse = () => {
         <ModalHeader>Edit {editType}</ModalHeader>
         <ModalBody>
           {editData && Object.keys(editData).map((key) => (
-            key !== '_id' && (
+            key !== 'id' && (
               <div key={key} className="mb-2">
                 <Label>{key}</Label>
                 <TextInput value={editData[key]} onChange={(e) => setEditData({ ...editData, [key]: e.target.value })} />

@@ -6,85 +6,104 @@ import { Link } from 'react-router-dom'
 
 
 const HowToApply = () => {
-const [dataOne, setDataOne] = useState(null);
-const [dataTwo, setDataTwo] = useState(null);
+const [dataOne, setDataOne] = useState({});
+const [dataTwo, setDataTwo] = useState({});
 const [dataThree, setDataThree] = useState(null);
 
 
-useEffect(() => {
-  
-const fetchdataAll = async ()=>{
-  try {
-     
-     const [resOne, resTwo, resThree ] = await Promise.all([
-      fetch('/api/settings/howtoapplyone'),
-      fetch('/api/settings/howtoapplytwo'),
-      fetch('/api/settings/howtoapplythree')
-     ]) 
-    
-    
-     if(resOne.ok || resTwo.ok || resThree.ok){
 
-       const [resOneData, resTwoData, resThreeData ] =  await Promise.all([
-       resOne.json(),
-       resTwo.json(),
-       resThree.json()
-     ]) 
-  
-     setDataOne(resOneData)
-     setDataTwo(resTwoData)
-     setDataThree(resThreeData)
-     
-    }
+useEffect(()=>{
 
-     if(!res.ok){
-      console.log('cant get response')
-     }
+  const fetchAll =async()=> {
+   const [studentRes, accRes, camRes] = await Promise.all([fetch(`/api/content/student`),
+     fetch(`/api/content/accomodation`),
+    fetch(`/api/content/campus`)])
 
-  } catch (error) {
-    console.log(error.message)
-  }
+
+   if(!studentRes.ok || !accRes.ok || !camRes){
+    console.log([studentRes,accRes, camRes ])
+    return
+   }
+
+
+  const [studentData, accData, camData] = await Promise.all([studentRes.json(), accRes.json(), camRes.json()])
+  setDataOne(studentData)
+  setDataTwo(accData)
+  setDataThree(camData)
 }
-
-fetchdataAll()
-     
-}, [])
+fetchAll()
+},[])
 
 
 
-console.log(dataOne)
-console.log(dataTwo)
-console.log(dataThree)
+
+   const capital =(myName)=>{
+    const firstleter = myName.charAt(0).toLocaleUpperCase()
+    const restLetter = myName.slice(1)
+
+     return firstleter + restLetter
+   }
+
+  const cards = [
+    {
+      image: dataOne?.image || '',
+      title: "capital(dataOne?.title)" || 'Loading',
+      text: dataOne?.content || 'Loading',
+      links: [
+        { label: dataOne?.subtitle || 'Loading', href: "#" },
+      ],
+    },
+    {
+      image: dataTwo?.image || '', 
+      title: "capital(dataTwo?.title)",
+      text: dataTwo.content,
+      links: [{ label:dataTwo?.subtitle, href: "#" }],
+    },
+    {
+      image: dataThree?.image || ' ',
+      title:"capital(dataThree?.title)",
+      text: dataThree?.content || 'loading',
+      links: [{ label: dataTwo?.subtitle, href: "#" }],
+    },
+  ];
+
 
 
   return (
-    <div className=' flex flex-col md:p-20 p-5 items-center md:items-start gap-10'>
-        
-   <div className='flex md:flex-row md:justify-between flex-col  items-center w-full cursor-pointer'> <h1 className=' font-bold font-sans text-3xl text-blue-800'> </h1>
-  <Link to={'/admision'} >  <h2 className=' underline font-semibold text-lg font-sans '>View all Requirements</h2> </Link> </div>
-        
+    <section className="max-w-7xl mx-auto px-4 py-12  mb-50">
+      <div className="grid md:grid-cols-3 gap-8">
+        {cards.map((card, index) => (
+          <div key={index} className="bg-white shadow-md">
+            {/* Image */}
+            <img
+              src={`uploads/${card.image}`}
+              alt={card.title}
+              className="w-full h-52 object-cover"
+            />
 
-        <div className='flex flex-col md:flex-row gap-5 '>
-         
-
-            <Card>
-                <h1 className='text-2xl font-bold tracking-tight text-gray-900 flex gap-3 items-center dark:text-white'><span> <FaRegFileAlt/> </span> {dataOne?.title || 'Loading'}</h1>
-                 <p className="font-normal text-gray-700 dark:text-gray-400"> {dataOne?.subtitle || 'Loading'}</p>
-            </Card>
-
-               <Card>
-                <h1 className='text-2xl font-bold tracking-tight text-gray-900 flex gap-3 items-center dark:text-white'><span> <TbMessage2Share /> </span> {dataTwo?.title || 'Loading'}</h1>
-                 <p className="font-normal text-gray-700 dark:text-gray-400">{dataTwo?.subtitle || 'Loading'}</p>
-            </Card>
-
-                <Card>
-                <h1 className='text-2xl font-bold tracking-tight text-gray-900 flex gap-3 items-center dark:text-white'><span> <FaRegFileAlt/> </span> {dataThree?.title || 'Loading'}</h1>
-                 <p className="font-normal text-gray-700 dark:text-gray-400">{dataThree?.subtitle || 'Loading'}</p>
-            </Card> 
-        </div>
-        
-        </div>
+            {/* Content */}
+            <div className="bg-blue-900 text-white p-6 flex flex-col h-full">
+              <h3 className="text-xl font-semibold mb-3">{card.title}</h3>
+              <p className="mb-4" dangerouslySetInnerHTML={{__html:card?.text || ''}}></p>
+              <div className="mt-auto space-y-2">
+                {card.links.map((link, i) => (
+                  <a
+                    key={i}
+                    href={link.href}
+                    className="inline-flex items-center text-slate-200 hover:underline"
+                  >
+                    {link.label}
+                    <span className="ml-1">→</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
   )
+  
 }
 
 export default HowToApply

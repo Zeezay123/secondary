@@ -10,6 +10,8 @@ router.post('/create', verifyToken, create)
 
 // Get posts with filtering and pagination
 router.get('/getposts', getPosts)
+// router.get('/getposts/:slug', getPosts)
+
 
 router.delete('/deletepost/:postId/:userId',verifyToken, deletePost)
 

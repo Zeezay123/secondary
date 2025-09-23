@@ -3,196 +3,204 @@ import { Button, TextInput, Label, Alert, Select, FileInput } from "flowbite-rea
 import axios from "axios";
 import {CircularProgressbar} from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css'
+import { TabItem, Tabs } from "flowbite-react";
+import AboutComp from "./AboutComp";
+import HomeComp from "./HomeComp";
+import BlogComp from "./BlogComp";
+import ProgComp from "./ProgComp";
 
-const SECTIONS = [
-  "about",
-  "homepage",
-  "howtoapplyone",
-  "howtoapplytwo",
-  "howtoapplythree",
-  "programmes",
-  "blog",
-  "calltoaction",
-];
+// const SECTIONS = [
+//   "about",
+//   "homepage",
+//   "howtoapplyone",
+//   "howtoapplytwo",
+//   "howtoapplythree",
+//   "programmes",
+//   "blog",
+//   "calltoaction",
+// ];
 
-const SECTION_FIELDS = {
-  about: [
-    "title",
-    "subtitle",
-    "intro",
-    "mission",
-    "vision",
-    "philosophy",
-    "vcMessage",
-    "directorMessage",
-  ],
-  homepage: ["title", "subtitle", "intro"],
-  howtoapplyone: ["title", "subtitle"],
-  howtoapplytwo: ["title", "subtitle"],
-  howtoapplythree: ["title", "subtitle"],
-  programmes: ["title", "subtitle", "introTitle", "introSubtitle"],
-  blog: ["title", "subtitle"],
-  calltoaction: ["title", "subtitle"],
-};
+// const SECTION_FIELDS = {
+//   about: [
+//     "title",
+//     "subtitle",
+//     "intro",
+//     "mission",
+//     "vision",
+//     "philosophy",
+//     "vcMessage",
+//     "directorMessage",
+//   ],
+//   homepage: ["title", "subtitle", "intro"],
+//   howtoapplyone: ["title", "subtitle"],
+//   howtoapplytwo: ["title", "subtitle"],
+//   howtoapplythree: ["title", "subtitle"],
+//   programmes: ["title", "subtitle", "introTitle", "introSubtitle"],
+//   blog: ["title", "subtitle"],
+//   calltoaction: ["title", "subtitle"],
+// };
 
 export default function SiteSettingsAdmin() {
-  const [selectedSection, setSelectedSection] = useState("about");
-  const [formData, setFormData] = useState({});
-  const [loading, setLoading] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+//   const [selectedSection, setSelectedSection] = useState("about");
+//   const [formData, setFormData] = useState({});
+//   const [loading, setLoading] = useState(false);
+//   const [saving, setSaving] = useState(false);
+//   const [error, setError] = useState("");
+//   const [success, setSuccess] = useState("");
 
-  // Separate states for each file and upload progress
-  const [vcImageFile, setVcImageFile] = useState(null);
-  const [vcUploadProgress, setVcUploadProgress] = useState(0);
-  const [directorImageFile, setDirectorImageFile] = useState(null);
-  const [directorUploadProgress, setDirectorUploadProgress] = useState(0);
+//   // Separate states for each file and upload progress
+//   const [vcImageFile, setVcImageFile] = useState(null);
+//   const [vcUploadProgress, setVcUploadProgress] = useState(0);
+//   const [directorImageFile, setDirectorImageFile] = useState(null);
+//   const [directorUploadProgress, setDirectorUploadProgress] = useState(0);
 
-  const [uploadError, setUploadError] = useState(null);
+//   const [uploadError, setUploadError] = useState(null);
 
-  useEffect(() => {
-    setLoading(true);
-    setError("");
-    setSuccess("");
-    fetch(`/api/settings/${selectedSection}`)
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch section data");
-        return res.json();
-      })
-      .then((data) => {
-        setFormData(data);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setFormData({});
-      })
-      .finally(() => setLoading(false));
-  }, [selectedSection]);
+  // useEffect(() => {
+  //   setLoading(true);
+  //   setError("");
+  //   setSuccess("");
+  //   fetch(`/api/settings/${selectedSection}`)
+  //     .then((res) => {
+  //       if (!res.ok) throw new Error("Failed to fetch section data");
+  //       return res.json();
+  //     })
+  //     .then((data) => {
+  //       setFormData(data);
+  //     })
+  //     .catch((err) => {
+  //       setError(err.message);
+  //       setFormData({});
+  //     })
+  //     .finally(() => setLoading(false));
+  // }, [selectedSection]);
 
-  function handleChange(e) {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  }
+  // function handleChange(e) {
+  //   const { name, value } = e.target;
+  //   setFormData((prev) => ({ ...prev, [name]: value }));
+  // }
 
-  // Handle file selection for VC Image
-  function handleVcImageChange(e) {
-    const file = e.target.files[0];
-    setVcImageFile(file);
-  }
+  // // Handle file selection for VC Image
+  // function handleVcImageChange(e) {
+  //   const file = e.target.files[0];
+  //   setVcImageFile(file);
+  // }
 
-  // Handle file selection for Director Image
-  function handleDirectorImageChange(e) {
-    const file = e.target.files[0];
-    setDirectorImageFile(file);
-  }
+  // // Handle file selection for Director Image
+  // function handleDirectorImageChange(e) {
+  //   const file = e.target.files[0];
+  //   setDirectorImageFile(file);
+  // }
 
-  // Upload helper, accepts file and upload progress setter, returns URL
-  const uploadImage = async (file, setProgress) => {
-    const cloudname = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+  // // Upload helper, accepts file and upload progress setter, returns URL
+  // const uploadImage = async (file, setProgress) => {
+  //   const cloudname = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
 
-    try {
-      const imageData = new FormData();
-      imageData.append("file", file);
-      imageData.append("upload_preset", "codelWebImagesPreset");
+  //   try {
+  //     const imageData = new FormData();
+  //     imageData.append("file", file);
+  //     imageData.append("upload_preset", "codelWebImagesPreset");
 
-      const res = await axios.post(
-        `https://api.cloudinary.com/v1_1/${cloudname}/image/upload`,
-        imageData,
-        {
-          onUploadProgress: (progressEvent) => {
-            const percent = Math.round(
-              (progressEvent.loaded * 100) / progressEvent.total
-            );
-            setProgress(percent);
-          },
-        }
-      );
+  //     const res = await axios.post(
+  //       `https://api.cloudinary.com/v1_1/${cloudname}/image/upload`,
+  //       imageData,
+  //       {
+  //         onUploadProgress: (progressEvent) => {
+  //           const percent = Math.round(
+  //             (progressEvent.loaded * 100) / progressEvent.total
+  //           );
+  //           setProgress(percent);
+  //         },
+  //       }
+  //     );
 
-      setUploadError(null);
-      setProgress(0); // reset after upload
+  //     setUploadError(null);
+  //     setProgress(0); // reset after upload
 
-   console.log(formData)
+  //  console.log(formData)
 
-      return res.data.secure_url;
-    } catch (error) {
-      console.error(error.message);
-      setUploadError("Error uploading image");
-      setProgress(0);
-      return null;
-    }
-  };
+  //     return res.data.secure_url;
+  //   } catch (error) {
+  //     console.error(error.message);
+  //     setUploadError("Error uploading image");
+  //     setProgress(0);
+  //     return null;
+  //   }
+  // };
 
-  // Upload and update URL in formData for VC Image
-  const handleUploadVcImage = async () => {
-    if (!vcImageFile) return;
-    const url = await uploadImage(vcImageFile, setVcUploadProgress);
-    if (url) setFormData((prev) => ({ ...prev, vcImage: url }));
-  };
+  // // Upload and update URL in formData for VC Image
+  // const handleUploadVcImage = async () => {
+  //   if (!vcImageFile) return;
+  //   const url = await uploadImage(vcImageFile, setVcUploadProgress);
+  //   if (url) setFormData((prev) => ({ ...prev, vcImage: url }));
+  // };
 
-  // Upload and update URL in formData for Director Image
-  const handleUploadDirectorImage = async () => {
-    if (!directorImageFile) return;
-    const url = await uploadImage(directorImageFile, setDirectorUploadProgress);
-    if (url) setFormData((prev) => ({ ...prev, directorImage: url }));
-  };
+  // // Upload and update URL in formData for Director Image
+  // const handleUploadDirectorImage = async () => {
+  //   if (!directorImageFile) return;
+  //   const url = await uploadImage(directorImageFile, setDirectorUploadProgress);
+  //   if (url) setFormData((prev) => ({ ...prev, directorImage: url }));
+  // };
 
-  async function handleSave() {
-    setSaving(true);
-    setError("");
-    setSuccess("");
-    try {
-      const token = localStorage.getItem("token");
+  // async function handleSave() {
+  //   setSaving(true);
+  //   setError("");
+  //   setSuccess("");
+  //   try {
+  //     const token = localStorage.getItem("token");
 
-      const payload = {};
-      Object.entries(formData).forEach(([key, value]) => {
-        // If value is a File object, skip — images should be URLs after upload
-        if (value instanceof File) return;
-        payload[key] = value;
-      });
+  //     const payload = {};
+  //     Object.entries(formData).forEach(([key, value]) => {
+  //       // If value is a File object, skip — images should be URLs after upload
+  //       if (value instanceof File) return;
+  //       payload[key] = value;
+  //     });
 
-      const res = await fetch(`/api/settings/${selectedSection}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(payload),
-      });
+  //     const res = await fetch(`/api/settings/${selectedSection}`, {
+  //       method: "PUT",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //       body: JSON.stringify(payload),
+  //     });
 
-      if (!res.ok) {
-        const errData = await res.json();
-        throw new Error(errData.message || "Failed to save");
-      }
+  //     if (!res.ok) {
+  //       const errData = await res.json();
+  //       throw new Error(errData.message || "Failed to save");
+  //     }
 
-      setSuccess("Section updated successfully!");
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setSaving(false);
-    }
-  }
+  //     setSuccess("Section updated successfully!");
+  //   } catch (err) {
+  //     setError(err.message);
+  //   } finally {
+  //     setSaving(false);
+  //   }
+  // }
 
   return (
-    <div className="p-6 bg-gray-50 rounded-lg shadow max-w-6xl mx-auto">
+    <div className="flex flex-col items-center px-5 md:px-20 ">
+      <Tabs variant="underline">
+        <TabItem title='Home'>
+          <HomeComp/>
+        </TabItem>
+        <TabItem title='About'>
+          <AboutComp/>
+        </TabItem>
+
+          <TabItem title='Blog'>
+          <BlogComp/>
+        </TabItem>
+
+    <TabItem title='Programmes'>
+      <ProgComp/>
+    </TabItem>
+        
+      </Tabs>
+    {/* <div className="p-6 bg-gray-50 rounded-lg shadow min-w-6xl min-h-4/5 mx-auto">
       <h1 className="text-2xl font-bold mb-4">Site Settings Admin</h1>
 
-      <div className="mb-6 max-w-xs">
-        <Label htmlFor="section-select" className="mb-2">
-          Select Section
-        </Label>
-        <Select
-          id="section-select"
-          value={selectedSection}
-          onChange={(e) => setSelectedSection(e.target.value)}
-        >
-          {SECTIONS.map((section) => (
-            <option key={section} value={section}>
-              {section.charAt(0).toUpperCase() + section.slice(1)}
-            </option>
-          ))}
-        </Select>
-      </div>
+      
 
       {loading ? (
         <p>Loading section data...</p>
@@ -296,6 +304,7 @@ export default function SiteSettingsAdmin() {
           {uploadError}
         </Alert>
       )}
+    </div> */}
     </div>
   );
 }

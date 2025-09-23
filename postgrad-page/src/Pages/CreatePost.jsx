@@ -28,13 +28,16 @@ const handleChange = async (e)=>{
 }
 
 //later i will change the image folder on cloudnary
-const data = new FormData()
-data.append('file', imageFile)
-data.append('upload_preset', 'codelWebImagesPreset')
+
+ const formdata = new FormData()
+ formdata.append('file', imageFile)
+
+
+
+
 
 const uploadImage = async ()=>{
 
-const cloudname = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
 
 try{
 if(!imageFile){
@@ -43,28 +46,37 @@ if(!imageFile){
 }
 
 setErrMessage(null)
-const res = await axios.post(`https://api.cloudinary.com/v1_1/${cloudname}/image/upload`,data,
-  {
-    onUploadProgress: (progressEvent)=>{
-      const percent = Math.round((progressEvent.loaded * 100) / progressEvent.total)
-      setUploadProgress(percent)
-    }
-  }
-)
+
+ const res = await axios.post(`/api/uploads/`, formdata, {
+            headers:{"Content-Type": "multipart/form-data" },
+        onUploadProgress: (progressEvent) => {
+        const percent = Math.round(
+          (progressEvent.loaded * 100) / progressEvent.total
+        );
+       
+        setUploadProgress(percent); 
+      },
+    })
 
 
 
 
-const url = res.data.secure_url
+const url_image = res.data
+
+const url = url_image
+
+
 
 setFormData({...formData, image:url})
 setErrMessage(null)
 setUploadProgress(null)
+
 }catch(error){
    setErrMessage('trouble uploading image')
    console.log(error)
 
 }
+
 } 
 
 const handleSubmit = async (e)=>{
@@ -89,6 +101,7 @@ try{
   if(res.ok){
     setPublishErr(null)
     navigate(`/post/${data.slug}`)
+   
   }
 }catch(error){
 setPublishErr('something went wrong')
@@ -105,9 +118,10 @@ setPublishErr('something went wrong')
             className='flex-1' onChange={(e)=>{setFormData({...formData, title:e.target.value})}} />
             <Select className='min-w-40' onChange={(e)=>{setFormData({...formData, category:e.target.value})}}>
                 <option value='uncategories'> Select a category </option>
-                <option value='news'> Fees </option>
-                <option value='news'> Course </option>
-                <option value='news'> Exams </option>
+                <option value='fees'> Fees </option>
+                <option value='course'> Course </option>
+                <option value='exam'> Exams </option>
+                <option value='school'> Schools </option>
 
             </Select>
 
@@ -138,7 +152,7 @@ setPublishErr('something went wrong')
         </div>
  { errMessage && <Alert color="failure" >{errMessage} </Alert>}
  {formData.image &&
- <img src={formData.image} alt="" className='w-full h-72 object-cover'  /> 
+ <img src={`/uploads/${formData.image}`} alt="" className='w-full h-72 object-cover'  /> 
 }
 
  <ReactQuill theme="snow" placeholder='Write something' className='h-72 mb-5' onChange={(value)=>{

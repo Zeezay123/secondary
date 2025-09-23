@@ -1,6 +1,7 @@
 import express from 'express';
 import { test, updateUser, deleteUser, signout, getUsers } from '../controllers/user.controller.js';
 import { verifyToken } from '../utils/verifyUser.js';
+import { errorHandler } from '../utils/error.js';
 
 // User routes - Base URL: /api/users
 const router = express.Router();
@@ -26,3 +27,4 @@ router.get('/getusers', verifyToken, getUsers)
 
 
 export default router;
+

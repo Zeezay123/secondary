@@ -48,7 +48,7 @@ if(tabFromUrl){
  }
  
   return (
-    <Sidebar className='md:w-56'>
+    <Sidebar className='md:w-56 '>
    <SidebarItems className='cursor-pointer'>
     <SidebarItemGroup className='flex flex-col gap-1'>
    <Link to='/dashboard?tab=profile' > 

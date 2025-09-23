@@ -10,7 +10,7 @@ const [annData, setAnndata] = useState({ title: '', content: '' });
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch('/api/announce/');
+        const res = await fetch('/api/content/announcement');
         if (!res.ok) {
           console.log('cannot fetch data');
           return;
@@ -30,13 +30,13 @@ const [annData, setAnndata] = useState({ title: '', content: '' });
 
 
   return (
-   <section className="bg-white py-12 px-6">
-           <h2 className="text-2xl font-bold text-center text-blue-900 mb-8">
-            {annData?.title || 'loading'}
+   <section className="bg-white py-12 px-6 mt-20">
+           <h2 className="text-2xl md:text-3xl  font-bold text-center text-blue-900 mb-8">
+            {annData?.subtitle || 'loading'}
            </h2>
    
-           <div className="max-w-3xl mx-auto bg-gray-100 rounded-lg shadow p-6">
-         <div className="text-center font-medium font-sans text-sm/10" dangerouslySetInnerHTML={{ __html: annData.content }} />
+           <div className="max-w-6xl mx-auto border-[1px] border-slate-100 rounded-lg p-6">
+         <div className="text-left font-normal font-sans text-sm/10 md:text-lg/loose" dangerouslySetInnerHTML={{ __html: annData.content }} />
            </div>
    
            {/* CTA Button */}

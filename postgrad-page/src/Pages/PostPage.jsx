@@ -24,7 +24,7 @@ const PostPage = () => {
           setLoading(false);
           return;
         }
-
+console.log(data)
         const mainPost = data.posts[0];
         setPost(mainPost);
 
@@ -33,7 +33,7 @@ const PostPage = () => {
         const relatedData = await relatedRes.json();
 
         if (relatedRes.ok && relatedData.posts) {
-          const filtered = relatedData.posts.filter((p) => p._id !== mainPost._id);
+          const filtered = relatedData.posts.filter((p) => p.id !== mainPost.id);
           setRelatedPosts(filtered);
         }
 
@@ -47,6 +47,8 @@ const PostPage = () => {
 
     fetchPost();
   }, [postSlug]);
+
+  const options = { month: "short", day: "2-digit", year: "numeric" };
 
   if (loading)
     return (
@@ -79,7 +81,7 @@ const PostPage = () => {
             {post.title}
           </h1>
           <p className="text-gray-200 mt-3 text-lg">
-            {new Date(post.createdAt).toLocaleDateString()}
+            {new Date(post.created_at).toLocaleDateString('en-US', options)}
           </p>
         </div>
       </header>
@@ -98,7 +100,7 @@ const PostPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {relatedPosts.map((relatedPost) => (
               <div
-                key={relatedPost._id}
+                key={relatedPost.id}
                 className="bg-white rounded-lg shadow hover:shadow-lg transition overflow-hidden"
               >
                 <img
@@ -117,7 +119,7 @@ const PostPage = () => {
                     {relatedPost.content.replace(/<[^>]+>/g, "")}
                   </p>
                   <Link
-                    to={`/blog/${relatedPost.slug}`}
+                    to={`/post/${relatedPost.slug}`}
                     className="inline-block mt-3 text-indigo-600 font-medium hover:underline"
                   >
                     Read more →

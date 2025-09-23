@@ -8,12 +8,12 @@ const DepartmentSection = () => {
   useEffect(() => {
     const fetchDepartments = async () => {
       try {
-        const res = await fetch("http://localhost:5173/api/departments/getdepart");
+        const res = await fetch("/api/departments/getdepart");
         if (!res.ok) throw new Error("Failed to fetch departments");
         const data = await res.json();
 
         // Only keep first 4
-        setDepartments(data.slice(0, 4));
+        setDepartments(data.slice(0, 8));
       } catch (error) {
         console.error(error);
       } finally {
@@ -33,8 +33,8 @@ const DepartmentSection = () => {
   }
 
   return (
-    <section className="max-w-7xl mx-auto px-4 py-12">
-      <div className="text-center mb-8">
+    <section className="max-w-7xl mx-auto py-12">
+      {/* <div className="text-center mb-8">
         <h2 className="text-3xl font-bold">Our Departments</h2>
         <p className="text-gray-600 mt-2">
           Explore our various departments and their programmes.
@@ -44,8 +44,8 @@ const DepartmentSection = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         {departments.map((dept) => (
           <Card
-            key={dept._id}
-            imgSrc={dept.departimage || "https://via.placeholder.com/400x250"}
+            key={dept.id}
+            imgSrc={`uploads/${dept.departimage}` || "https://via.placeholder.com/400x250"}
             className="hover:shadow-lg transition duration-300"
           >
             <h3 className="text-xl font-semibold">{dept.name}</h3>
@@ -54,14 +54,40 @@ const DepartmentSection = () => {
               {dept.content || "No description available."}
             </p>
             <a
-              href={`/programmes/${dept._id}`}
+              href={`/programmes/${dept.id}`}
               className="mt-4 inline-block text-blue-600 hover:underline font-medium"
             >
               View Programmes →
             </a>
           </Card>
         ))}
-      </div>
+      </div> */}
+
+
+<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        {departments.map((dept) => (
+          <div
+            key={dept.id}
+            className="border-slate-100  border-[1px] rounded-lg p-5 hover:bg-blue-100 hover:shadow"
+          >
+            <div className="w-15 h-15 object-cover rounded-full border-2 border-blue-500"> <img src={`uploads/${dept.departimage}` || "https://via.placeholder.com/400x250"} alt="" className="w-full h-full object-cover rounded-full" /></div>
+            <h3 className="text-xl font-semibold">{dept.name}</h3>
+            <p className="text-sm text-gray-500">{dept.faculty?.name}</p>
+            <p className="text-gray-600 text-sm mt-2 line-clamp-3">
+              {dept.content || "No description available."}
+            </p>
+            <a
+              href={`/programmes/${dept.id}`}
+              className="mt-4 inline-block text-blue-600 hover:underline font-medium"
+            >
+              View Programmes →
+            </a>
+          </div>
+        ))}
+
+        </div>
+
+
 
       <div className="text-center mt-10">
         <a

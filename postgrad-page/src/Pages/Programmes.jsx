@@ -31,7 +31,7 @@ useEffect(()=>{
 
     const [res, pro] = await Promise.all([
       fetch('/api/departments/getdepart'),
-      fetch('/api/settings/programmes')
+      fetch('/api/settings/program')
     ])
   
 
@@ -46,15 +46,15 @@ useEffect(()=>{
 
 
       setProgData(proData)
-      console.log(progData)
+      console.log('this is prodata: ',data)
 
-         const facultyData = data.reduce((acc, dept) => {
-  const facultyName = dept.faculty?.name || 'No Faculty'
+  const facultyData = data.reduce((acc, dept) => {
+  const facultyName = dept?.faculty || 'No Faculty'
   if(!acc[facultyName]){
     acc[facultyName]= []
   }
 
-  acc[facultyName].push([dept.name, dept._id])
+  acc[facultyName].push([dept.name, dept.id])
   return acc
 },{})
 
@@ -91,15 +91,13 @@ console.log(facultyData)
   
       <section className="flex flex-col gap-6 text-center p-5 md:p-20 items-center justify-center mt-30">
         <h1 className="font-bold font-sans text-3xl text-center">
-          {progData?.introTitle || 'Loading'}
+          {progData?.second_title || 'Loading'}
         </h1>
-        <p className="max-w-5xl text-lg leading-relaxed text-gray-700">
-        {progData?.introSubtitle || 'Loading'}
-        </p>
+        <p className="max-w-5xl text-justify text-lg leading-relaxed text-gray-700" dangerouslySetInnerHTML={{__html:progData?.content || 'Loading'}}></p>
       </section>
 
     <section className='w-full flex flex-col gap-7 p-5 md:p-20 items-center'>
-   <div className='flex justify-center items-center bg-blue-800 w-full rounded-lg shadow-lg'><h1 className='text-lg md:text-3xl text-white font-bold font-sans py-3'>Undergraduate Programmes</h1></div>
+   <div className='flex justify-center items-center bg-blue-800 w-full rounded-lg shadow-lg'><h1 className='text-lg md:text-3xl text-white font-bold font-sans py-3'>Postgraduate Programmes</h1></div>
     
     <div onMouseLeave={()=>setToggleCurse(false)} className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 w-full'>
 

@@ -43,73 +43,37 @@ fetchdata()
 
 
   return (
-    <div className='relative flex flex-col lg:flex-row h-auto lg:h-[46rem] overflow-hidden mb-5'>
+    <section className='flex flex-col'>
+   
+    
+<div className='Flex flex-col   p-5  md:p-20'> 
 
-      {/* LEFT TEXT CONTENT */}
-      <div className='flex flex-col p-6 md:p-12 lg:p-20 justify-center gap-4 z-10 lg:w-[60%]'>
-        <div className='flex gap-2 items-center w-fit'>
-          <div className="relative w-2 h-2">
-            <div className="absolute inset-0 rounded-full bg-blue-300 opacity-20 blur-2xl animate-ping z-0"></div>
-            <div className="relative z-10 w-full h-full bg-blue-400 rounded-full shadow-lg shadow-blue-400/50"></div>
-          </div>
-          <p className='text-[0.625rem] font-medium font-[inter]'>July 2025 Registration Session</p>
-        </div>
+<div className='flex flex-col md:flex-row justify-between'> <div className='flex flex-col w-full text-center md:text-left bg-white md:w-full
+ text-4xl/snug md:text-[7rem]/tight font-[inter] font-bold md:font-bold '> <span>  {data?.title || 'loading'}</span>
+<span className='text-blue-500'>  {data?.subtitle || 'loading'}</span> </div>  <span className='hidden md:flex'> <img src='' alt="" /></span></div>
 
-        <h1 className='font-[inter] font-medium text-4xl md:text-5xl lg:text-[64px]/18 leading-tight'>
-        {data?.title || 'loading'}<br />
-          <span className='text-blue-500 font-bold'>{data?.subtitle || 'loading'}</span>
-        </h1>
+<Link as='div' to={'/programmes'}  className='flex flex-col md:flex-row  gap-5 md:justify-between mt-5 md:mt-15'> 
+  
+  <div className='flex flex-col md:flex-row border-[1px] border-slate-200 bg-slate-100 shadow h-18 w-90% md:w-65 justify-center items-center rounded-full relative'>  
+    <div className='left-4 flex absolute rounded-full object-cover border-2 w-9 h-9 border-blue-500'>  <img className='rounded-full w-full h-full' src={imageone} alt="" /></div>
+    <div className='flex left-10 absolute rounded-full object-cover border-2 w-9 h-9 border-blue-500'>  <img className='rounded-full w-full h-full' src={imagetwo} alt="" /></div>
+    <div className='flex left-16 absolute rounded-full object-cover border-2 w-9 h-9 border-blue-500'>  <img className='rounded-full w-full h-full' src={imagethree} alt="" /></div>
+    <div className='left-22 absolute rounded-full object-cover border-2 w-9 h-9 border-blue-500'>  <img className='rounded-full w-full h-full' src={imagefive} alt="" /></div>
+    <div className='left-28 absolute rounded-full object-cover border-2 w-9 h-9 border-blue-500'>  <img className='rounded-full w-full h-full' src={imagesix} alt="" /></div>
+    
+    <div className='flex flex-col items-center  absolute right-10 md:right-5'><span className='font-bold font-[inter]'>100+  </span> <span className='text-lg'>Courses </span></div>
+ </div>
 
-        <p className='font-[inter] text-base md:text-lg text-slate-700 max-w-xl'>
-         {data?.intro || 'loading'}
-         </p>
 
-        <div  className='w-fit'>
-       <Link to={'/programmes'}>   <Button text='Browse Our Courses' icon={<FaArrowRight className='text-blue-600' />} /></Link>
-        </div>
+   <p className='w-full text-justify md:w-md md:text-left font-[inter] md:text-lg text-gray-300 text-wrap line-clamp-5' dangerouslySetInnerHTML={{__html:data?.intro}}>
+    </p></Link>
+<div className='flex mt-10 md:mt-16 w-full h-full md:h-[550px] object-cover'> <img className='flex rounded-sm w-full h-full' src={imageone} alt="" /></div>
+</div>
 
-        <div className='border border-gray-200 text-slate-500 text-xs rounded px-3 py-[3px] w-fit font-[inter]'>
-          over 2000+ students enrolled
-        </div>
-      </div>
 
-      {/* RIGHT IMAGE GRID */}
-      <div className='relative w-full lg:w-[40%] h-[30rem] lg:h-full mt-10 lg:mt-0 lg:absolute lg:right-0 lg:top-0 lg:flex hidden'>
-        {/* top fade */}
-        <div className='absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-white/100 to-transparent z-10'></div>
-        {/* bottom fade */}
-        <div className='absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-white/100 to-transparent z-10'></div>
 
-        <div className='flex w-full gap-3 px-4 lg:px-0'>
-          {/* Left column */}
-          <div className='flex flex-col w-1/2 gap-2'>
-            <div className='h-[40%] rounded-2xl overflow-hidden'>
-              <img src={imageone} className='w-full h-full object-cover rounded-lg' alt="" />
-            </div>
-            <div className='h-[30%] rounded-2xl overflow-hidden'>
-              <img src={imagetwo} className='w-full h-full object-cover rounded-lg' alt="" />
-            </div>
-            <div className='h-[40%] rounded-2xl overflow-hidden'>
-              <img src={imagefour} className='w-full h-full object-cover rounded-lg' alt="" />
-            </div>
-          </div>
 
-          {/* Right column */}
-          <div className='flex flex-col w-1/2 gap-2'>
-            <div className='h-[60%] rounded-2xl overflow-hidden'>
-              <img src={imagefive} className='w-full h-full object-cover rounded-lg' alt="" />
-            </div>
-            <div className='h-[40%] rounded-2xl overflow-hidden'>
-              <img src={imagesix} className='w-full h-full object-cover rounded-lg' alt="" />
-            </div>
-            <div className='h-[30%] rounded-2xl overflow-hidden'>
-              <img src={imagethree} className='w-full h-full object-cover rounded-lg' alt="" />
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
+    </section>
   )
 }
 

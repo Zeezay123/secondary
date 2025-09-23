@@ -10,6 +10,7 @@ const Blog = () => {
   const [err, setErr] = useState(false);
   const [post, setPost] = useState([]);
   const [showMore, setShowMore] = useState(true);
+  const [blogFiles, setBlogFiles] = useState();
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -31,6 +32,29 @@ const Blog = () => {
         setLoading(false);
       }
     };
+   
+     const fetchBlog = async ()=>{
+       
+       try {
+      const res = await fetch(`/api/settings/blog`)
+      const  data = await res.json()
+
+      if(!res.ok){
+        setErr(true)
+        return
+      }
+      setBlogFiles(data)  
+
+      } catch (error) {
+        setErr(true)
+        console.log(error.message)
+      }
+
+
+     }
+
+
+    fetchBlog()
     fetchPost();
   }, []);
 
@@ -55,12 +79,12 @@ const Blog = () => {
   return (
     <main>
       {/* Hero Section */}
-      <SecondHero />
+      <SecondHero  title={blogFiles?.title || 'title'} content={blogFiles?.subtitle || 'subtitles'}/>
 
       {/* Title */}
       <section className="mt-28 text-center">
         <h1 className="text-4xl font-bold font-sans">
-          Delsu Codel News & Updates
+          DELSU Postgraduate News & Updates
         </h1>
         <p className="text-gray-600 mt-2">
           Stay updated with the latest news, articles, and stories.

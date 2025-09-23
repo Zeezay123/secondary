@@ -54,7 +54,7 @@ const HeaderMenu = () => {
             {/* <Link to='/dashboard'  className={`font-semibold  ${path == '/dashboard' ? 'text-blue-700':'dark:text-white text-gray-700' }`}>Dashboard</Link> */}
             <Link to='/about'  className={`font-semibold  ${path == '/about' ? 'text-blue-700':'dark:text-white text-gray-700' }`}>About</Link>
             <Link to='/posts'  className={`font-semibold  ${path == '/posts' ? 'text-blue-700':'dark:text-white text-gray-700' }`}>Blog</Link>
-            <Link to='/admision'  className={`font-semibold  ${path == '/admision' ? 'text-blue-700':'dark:text-white text-gray-700' }`}>Admision</Link>
+            <Link to='/admision'  className={`font-semibold  ${path == '/admision' ? 'text-blue-700':'dark:text-white text-gray-700' }`}>Admission</Link>
            
           </div>
 {/* 

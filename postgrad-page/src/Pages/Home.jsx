@@ -10,11 +10,11 @@ import CallToAction from '../components/CallToAction'
 
 const Home = () => {
   return (
-  <div className='flex flex-col p-1'>
+  <div className={`flex flex-col p-1`}>
       <Hero />
       <Aboutus />
-      <Vcaddress />
       <Faculty />
+      <Vcaddress />
       <HowToApply/>
       <News />
       <CallToAction/>

@@ -9,7 +9,7 @@ const Vcaddress = () => {
   const [vcToggle, setVcToggle] = useState(true);
 
   return (
-    <section className="m-4 sm:m-8 md:m-12 lg:m-20 bg-slate-200 shadow rounded-xl flex flex-col lg:flex-row p-4 
+    <section className="m-4 sm:m-8 md:m-12 lg:m-20 bg-white border-[1px] border-gray-100 rounded-xl flex flex-col lg:flex-row p-4 
     sm:p-8 md:p-10 items-center justify-between min-h-[40rem]">
       <div className="flex flex-col gap-5 w-full lg:w-1/2">
         <div className="flex gap-2 justify-center w-fit items-center">

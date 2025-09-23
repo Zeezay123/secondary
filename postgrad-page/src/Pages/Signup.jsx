@@ -43,12 +43,12 @@ try{
   });
 
   const data = await res.json();
-if(data.sucess == false){
+if(data.success == false){
   return setError(data.message)
 }
 setLoading(false);
 if(res.ok){
- return navigate('/signin')
+return navigate('/signin')
 }
 
 }catch(error){
