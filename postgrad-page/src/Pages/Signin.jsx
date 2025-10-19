@@ -67,7 +67,7 @@ if(res.ok){
     <section className='flex flex-col items-center  justify-center gap-10 p-5 min-h-screen lg:px-10'>
       <div className='flex flex-col items-center justify-center'>
         <div className='mb-5 w-[8rem] h-[8rem] md:w-[12rem] md:h-[12rem]  '>  <img className='h-full w-full object-contain' src={logo} alt="delsu logo" /></div> 
-        <h1 className='font-bold font-sans text-3xl mt-5 mb-5 self-center text-center w-[300px] md:w-full  md:text-4xl'>Welcome to Delsu Distance Learning CMS </h1>
+        <h1 className='font-bold font-sans text-3xl mt-5 mb-5 self-center text-center w-[300px] md:w-full  md:text-4xl'>Welcome to DELSU Staff School CMS </h1>
       </div>
 
  

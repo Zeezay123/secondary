@@ -1,6 +1,6 @@
 import React from 'react'
-import { Sidebar, SidebarItem, SidebarItemGroup, SidebarItems } from 'flowbite-react'
-import {HiUser, HiArrowSmRight, HiDocumentText, HiDocumentSearch, HiOutlineUser, HiOutlineUserGroup} from 'react-icons/hi'
+import { Sidebar, SidebarCollapse, SidebarItem, SidebarItemGroup, SidebarItems } from 'flowbite-react'
+import {HiUser, HiArrowSmRight, HiDocumentText, HiDocumentSearch, HiOutlineUser, HiOutlineUserGroup, HiOfficeBuilding, HiPencil} from 'react-icons/hi'
 import { useLocation, Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 
@@ -87,7 +87,7 @@ if(tabFromUrl){
       )
      }
 
-     {
+     {/* {
       currentUser.isAdmin && (
  <Link to={'/dashboard?tab=course'}> 
 
@@ -99,8 +99,25 @@ if(tabFromUrl){
    
    </Link>
       )
-     }
+     } */}
 
+{
+  currentUser.isAdmin && (
+    <SidebarCollapse icon={HiOfficeBuilding} label='Schools'>
+ <Link to={'/dashboard?tab=secondary'}>  <SidebarItem active={tab === 'secondary'} 
+   icon={HiPencil} as='div'>
+    Secondary
+   </SidebarItem></Link> 
+
+
+
+  <Link to={'/dashboard?tab=primary'}> <SidebarItem active={tab === 'primary'} 
+   icon={HiPencil} as='div'>
+    Primary
+   </SidebarItem></Link> 
+    </SidebarCollapse>
+  )
+}
      
      {
       currentUser.isAdmin && (

@@ -8,30 +8,30 @@ import SecondHero from '../components/SecondHero.jsx'
 const AboutUs = () => {
   const [data, setData] = useState(null);
 
-useEffect(() => {
+// useEffect(() => {
   
-const fetchdata = async ()=>{
-  try {
+// const fetchdata = async ()=>{
+//   try {
      
-     const res = await fetch('/api/settings/about')
-     const data = await res.json()
-     if(res.ok){
-      setData(data)
-      return
-     }
+//      const res = await fetch('/api/settings/about')
+//      const data = await res.json()
+//      if(res.ok){
+//       setData(data)
+//       return
+//      }
 
-     if(!res.ok){
-      console.log('cant get response')
-     }
+//      if(!res.ok){
+//       console.log('cant get response')
+//      }
 
-  } catch (error) {
-    console.log(error.message)
-  }
-}
+//   } catch (error) {
+//     console.log(error.message)
+//   }
+// }
 
-fetchdata()
+// fetchdata()
      
-}, [])
+// }, [])
 
 
 const title = data?.title || ''
@@ -40,69 +40,79 @@ const title = data?.title || ''
 
 
 return(
-  <section className="flex flex-col">
+  <section className="grid grid-rows-1">
 
-<SecondHero title={title} content={data?.subtitle || 'loading'} />
+<SecondHero/>
+  
+<div className="grid grid-rows-1 border-t border-t-blue-950  mx-15 mt-20">
+<h1 className="font-[inter] font-bold text-4xl pt-5 text-blue-950 ">Values</h1>
 
+<div className="flex items-center"> <p className="font-normal text-2xl pt-10 px-20">
+  Excellence, Respect, Integrity, Courtesy, Service, Wellbeing
+  </p></div>
 
-   {/* <div className="flex p-5 md:p-20 items-center justify-center mt-30">
-   <p className=" max-w-5xl text-wrap text-lg/9 text-justify">
-    {data?.intro}  </p>
-   </div>
-
-   <div className="flex flex-col-reverse md:flex-row p-5 md:p-30 md:relative">
-
-    <div className="flex flex-col item justify-between p-5 md:p-20 bg-blue-700"> <p className="max-w-[700px] text-white text-justify text-lg font-normal font-sans">
-  {data?.vcMessage || 'loading'}  </p>
-      <p className="text-white text-justify text-lg font-normal font-sans my-2">Thank you</p>
-       <h1 className=" text-white text-justify text-xl font-bold font-sans">Prof. Samuel Ogheneovo Asagba.  </h1>
-      <p className="text-white text-justify text-sm font-normal font-sans "> VC Delta State Unversity</p>
-       
-       </div>
-
-
-
-
-   <div className="md:absolute max-w-[500px] max-h-[800px] md:w-[500px] md:h-[800px] top-10 right-20 flex"><img className="w-full h-full object-cover" src={imagetwo} alt="" /></div>
-   </div>
-
-<div className="flex flex-col-reverse md:flex-row p-5 md:p-30 md:relative">
-
-    <div className="flex flex-col item justify-between p-5 md:p-20 bg-slate-100"> <p className="max-w-[700px] text-blue-950 text-justify text-lg font-normal font-sans">
-   {data?.directorMessage || 'loading'} </p>
-      <p className="text-blue-900 text-justify text-lg font-normal font-sans my-2">Thank you</p>
-       <h1 className=" text-blue-900 text-justify text-xl font-bold font-sans"> 
-
-Prof O. Odedede  </h1>
-      <p className="text-blue-900 text-justify text-sm font-normal font-sans ">Director, CODEL </p>
 
 </div>
-   <div className="md:absolute max-w-[500px] max-h-[800px] md:w-[500px] md:h-[800px] top-10 right-20 flex"><img className="w-full h-full object-cover" src={imagetwo} alt="" /></div>
-   </div>
 
-   <div className="flex flex-col md:flex-row items-center justify-center gap-5 md:p-20 p-5 ">
-    <Card className="min-w-[400px] min-h-[250px] ."> <h1 className="text-2xl font-bold text-black
-    font-sans">Our Mission</h1>
-    <p className="text-sm">
-    {data?.mission || 'loading'}  </p>
-    </Card>
+
+<div className="grid grid-rows-1 border-t-4 border-t-blue-950  mx-15 mt-20">
+<h1 className="font-[inter] font-bold text-4xl pt-5 text-blue-950 ">Vison and Mission</h1>
+
+<div className="flex flex-col items-center justify-center"> <p className="w-[80%] text-justify font-normal text-2xl/normal py-10 px-20">
+ Vision: Charterhouse Lagos aspires to be Nigeria’s foremost educational institution, known for academic excellence and all-around student development. We are committed to offering an unmatched educational experience, nurturing well-rounded individuals poised for global leadership. Our goal is to shape proactive contributors, ready to make a significant impact in a better, more connected world.
+</p>
+<p className="w-[80%] text-justify font-normal text-2xl/normal py-10 px-20"> Mission: Charterhouse Lagos delivers a transformative, holistic education that fosters academic excellence, character development, and global citizenship. We empower students with skills, values, and opportunities, preparing them to thrive in a diverse and dynamic world while upholding ethical standards and making a positive societal impact.
+ </p>
+  </div>
+
+
+</div>
+
+
+<div className="grid grid-rows-1 border-t-4 border-t-blue-950  mx-15 mt-20">
+<h1 className="font-[inter] font-bold text-4xl pt-5 text-blue-950 ">Learning Principles</h1>
+
+<div className="flex flex-col items-center justify-center"> <ul className="w-[80%] font-[inter] text-justify font-medium text-2xl/normal py-10 px-20">
+ {/* ’s foremost educational institution, known for academic excellence and all-around student development. We are committed to offering an unmatched educational experience, nurturing well-rounded individuals poised for global leadership. Our goal is to shape proactive contributors, ready to make a significant impact in a better, more connected world. */}
+<li className="">  Learning needs to be purposeful and directed.</li>
+<li > Learning needs to be adapted to each individual to support their needs.</li>
+<li> Learning is contextual.</li>
+</ul>
+ </div>
+
+
+<div className="flex pl-20 items-center justify-start md:ml-35 font-[inter]  font-bold text-xl w-[70%]"> Two Key Outcomes:
+</div>
+
+
+<div className="flex justify-center items-center ">
+
+<ol className="w-[80%] text-justify  font-[inter] font-medium text-2xl/normal py-10 px-20">
+
+ {/* Mission: Charterhouse Lagos delivers a transformative, holistic education that fosters academic excellence, character development, and global citizenship. We empower students with skills, values, and opportunities, preparing them to thrive in a diverse and dynamic world while upholding ethical standards and making a positive societal impact. */}
  
-   <Card className="min-w-[400px] min-h-[250px]"> <h1 className="text-2xl font-bold text-black
-    font-sans">Our Vision</h1>
-   <p className="text-sm ">
-      {data?.vision || 'Loading'}  </p>
-    </Card>
+ <li>The long-term retention of valuable knowledge, concepts, and skills.</li>
+ <li>The ability to transfer what has been retained into different contexts and situations.</li>
+ </ol>
+</div>
+ 
 
-      <Card className="min-w-[400px] min-h-[250px] "> <h1 className="text-2xl font-bold text-black
-    font-sans">Our Philosophy</h1>
-   <p className="text-sm">
-    {data?.philosophy || 'Loading'}
-   
-    </p>
-    </Card>
-   </div> */}
+
+</div>
+
   
-  <div className="bg-gray-50 text-gray-800 mt-20">
+<div className="grid grid-rows-1 border-t border-t-blue-950  mx-15 mt-20">
+<h1 className="font-[inter] font-bold text-4xl pt-5 text-blue-950 ">Learning Drivers
+</h1>
+
+<div className="flex items-center"> <p className="font-normal text-2xl pt-10 px-20">
+  Sustainability, Technology, Morality, Future Employability and Wellbeing.
+  </p></div>
+
+
+</div>
+
+  {/* <div className="bg-gray-50 text-gray-800 mt-20">
 
       <section className="py-16 max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
         <img
@@ -160,8 +170,8 @@ Prof O. Odedede  </h1>
           <li>A community that nurtures leaders, innovators, and problem-solvers.</li>
         </ul>
       </section>
-    </div>
-  <CallToAction/>
+    </div> */}
+  <CallToAction/> 
 
   </section>
 )

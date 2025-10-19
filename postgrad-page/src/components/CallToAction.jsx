@@ -5,29 +5,20 @@ import { Link } from 'react-router-dom';
 
 const CallToAction = () => {
   return (
-    <section className="relative flex flex-col items-center justify-center p-8 md:p-20 bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700 text-white overflow-hidden">
-      
-      <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/asfalt-light.png')]"></div>
+    <section className='grid grid-cols-1 gap-5 md:grid-cols-2 align justify-center items-center border-t-3 md:mx-15 mt-20 border-blue-950'>
+     <div className='flex border-y border-red-600 mt-10 p-6  justify-between' >
+       <h1 className='text-2xl font-semibold w-[65%] break-words font-[inter]'> Enquire now to secure your child’s place.</h1>
+        <div className='flex items-center justify-center
+          font-semibold font-inter border px-7 rounded border-red-500 hover:text-white hover:bg-red-600 transition-transform duration-700 '> <Link>Apply now </Link></div>
+     </div>
 
-      <div className="relative text-center max-w-3xl">
-        <h1 className="text-2xl md:text-4xl font-extrabold leading-snug">
-          Ready to Take the Next Step <br className="hidden md:block" /> Toward
-          Your Future Career?
-        </h1>
-        <p className="mt-4 text-gray-200 text-sm md:text-lg">
-          Join hundreds of successful students who have turned their ambitions
-          into reality with us. Your journey starts here.
-        </p>
-
-        <div className="mt-6 flex items-center justify-center">
-        <Link to={'https://portal.delsu.edu.ng/'}> <Button
-            className="font-bold px-6 py-3 md:px-8 md:py-4 text-lg  text-blue-700 rounded-full shadow-lg flex items-center gap-3 hover:scale-105 transition-transform"
-            text="Apply Now"
-            icon={<FaArrowRight className="text-blue-600" />}
-          /></Link> 
-        </div>
-      </div>
+   <div className='flex border-y border-blue-600 mt-10 p-6  justify-between' >
+       <h1 className='text-2xl font-semibold w-[65%] break-words font-[inter]'> Enquire now to secure your child’s place.</h1>
+        <div className='flex items-center justify-center
+          font-semibold font-inter border px-7 rounded text-white bg-blue-900 transition-transform duration-700 hover:text-black hover:underline-offset-8  hover:underline hover:bg-white'> <Link>Portal Login </Link></div>
+     </div>
     </section>
+    
   );
 };
 

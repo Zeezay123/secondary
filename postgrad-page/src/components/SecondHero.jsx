@@ -3,27 +3,14 @@ import imageOne from '../assets/images/abrak gate 1.png'
 
 const SecondHero = ({title, content }) => {
 return (
-    <header className="relative w-full">
-    
-      <div className="w-full h-[300px] md:h-[400px]">
-        <img
-          className="w-full h-full object-cover"
-          src={imageOne}
-          alt="Hero background"
-        />
-        
-        <div className="absolute inset-0 bg-black opacity-20 "></div>
-      </div>
-
-      <div className="absolute left-1/2 bottom-[-5rem] transform -translate-x-1/2 bg-blue-800 rounded-lg shadow-lg p-6 md:p-10 w-[90%] md:w-[600px]">
-        <h1 className="text-3xl md:text-4xl font-bold text-white font-sans">
-          {title || 'Title'}
-        </h1>
-        <p className="text-white font-medium mt-4 md:mt-6 leading-relaxed">
-          {content ||
-            'The CCODeL mission drives our focus on quality education for all and service to our neighbours in need.'}
-        </p>
-      </div>
+    <header className=" grid grid-cols-2 p-20 gap-5 justify-center h-[50vh] bg-blue-950 relative w-full">
+     <div className=' border-t-2 border-t-white p-4 mt-5'>
+      <h1 className='font-[inter] text-white font-bold text-4xl '> {title ? title :'Our Value Framework'}</h1>
+     </div>
+     <div className=' border-t-2 border-t-white flex justify-center p-2 mt-5 ' >
+      <h2 className='font-medium font-[inter] text-white w-[80%] text-3xl/normal' >
+        {content ? content :'These are the guiding statements that help us make decisions about everything that we do'}</h2>
+     </div>
     </header>
 )
 };

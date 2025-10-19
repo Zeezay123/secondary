@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import logo from '../assets/delsulogo.png';
-import { Avatar, Button,Dropdown, Navbar, DropdownHeader, DropdownItem, DropdownDivider} from 'flowbite-react';
+import { Avatar, Button,Dropdown, Navbar, DropdownHeader, DropdownItem, DropdownDivider, ChevronDownIcon, ChevronUpIcon} from 'flowbite-react';
 import { Link, useLocation  } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { FaMoon } from 'react-icons/fa6';
@@ -10,13 +10,18 @@ import { signOutSuccess } from '../Redux/user/slice.js';
 
 const HeaderMenu = () => {
 
-  const [moonToggle, setMoonToogle] = useState(false);
+  const [transMode, setTrasnMode] = useState(false);
   const dispatch = useDispatch();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const path = useLocation().pathname;
   const currentUser = useSelector(state => state.user.currentUser);
+  const [textCol, setTestCol] = useState('black')
+  const [drop, setDrop] = useState(false)
+  const AboutRef = useRef({})
   
-
+  // const handleDrop=(index)=>{
+  //   setDrop((p)=> index == p ? null : p )
+  // }
   
   const handleSignout =async()=>{
     try{
@@ -37,24 +42,97 @@ const HeaderMenu = () => {
   }
   
 
-  return (
+
+const about = [
+  'Framework','Principal', 'Teachers', 'Anthem'
+]
+
+
+
+ const listenScrollEvent = () => {
+  if  (window.scrollY > 10 ) {
+    setTrasnMode(true) 
+    setTestCol('white') 
+  }
+  else {
+    setTestCol('black')
+    setTrasnMode(false)
+  
+  }
+  
+    
+    
+};
+  useEffect(() => {
+    window.addEventListener("scroll", listenScrollEvent);
+    return () => {
+      window.removeEventListener("scroll", listenScrollEvent);
+    };
+
    
-      <Navbar className="bg-white  justify-between w-full">
+ 
+  }, []);
+
+ 
+    
+
+
+  return (
+    <section className=' relative '> 
+
+   {
+   !currentUser ? (
+   <nav className='hidden md:flex w-full justify-between items-center  fixed z-50 py-5 md:px-8'>
+     
+  {transMode ? <div className=''> </div> :  <Link  className="flex items-center" to="/">
+            <img src={logo} className="h-10 mr-3" alt="Delsu Logo" />
+            <span className={` text-xl font-bold text-black `}>Delta State University</span>
+          </Link>}
+     
+
+
+     <div  className='flex justify-between bg-white/50 backdrop-blur-3xl font-semibold text-sm w-fit gap-5 py-3 px-5 rounded-full font-[inter] text-black '>
+     <div  onMouseEnter={()=>setDrop(true)} onMouseLeave={()=>setDrop(false)} className=' h-full'
+     > <div className='flex relative items-center justify-center transition-transform duration-500 gap-1'> <h1> About Us</h1>  {drop ? <ChevronUpIcon/> :<ChevronDownIcon/>}  </div>
+     
+      { drop && 
+    <div className='flex items-center justify-center font-[inter] w-35 gap-3 font-medium text-sm text-black flex-col absolute top-8 p-2'> 
+        <div className='bg-white/30 rounded shadow backdrop-blur-3xl mt-3 w-30 grid grid-rows-1 gap-3 px-2 py-2'>
+          <Link to={'/about'} className='px-3 hover:bg-white rounded '> Framework</Link>
+          <Link to={'/principal'} className='px-3 hover:bg-white rounded '> Principals</Link>
+          <Link className='px-3 hover:bg-white rounded '>Teachers</Link>
+          <Link className='px-3 hover:bg-white rounded '>Anthem</Link>
+    
+      </div> </div>  
+      } </div>
+    
+     <Link>Admission</Link>
+     <Link>School Life</Link>
+     <Link>Teachers</Link>
+     <Link>Portal</Link>
+
+     </div>
+      
+     </nav>) :
+   
+
+
+   <Navbar className={`${currentUser ? 'bg-blue-900  justify-between w-full' : `${transMode ? 'bg-white text-white w-full' : 'bg-transparent text-gray-900'}  justify-between w-full fixed z-50 top-0 left-0`}`}>
         <div className="flex justify-between items-center max-w-7xl mx-auto w-full">
           {/* Logo */}
           <Link  className="flex items-center" to="/">
             <img src={logo} className="h-10 mr-3" alt="Delsu Logo" />
-            <span className="text-xl font-bold text-gray-800 dark:text-white">Delta State University</span>
+            <span className={` text-xl font-bold ${transMode ?'text-black dark:text-white' : 'text-white'}`}>Delta State University</span>
           </Link>
 
           {/* Desktop Menu */}
           <div className="hidden lg:flex items-center space-x-8">
-            <Link to='/'  className={`font-semibold  ${path == '/' ? 'text-blue-700':'dark:text-white text-gray-700' }`}>Home</Link>
-            <Link to='/programmes'  className={`font-semibold  ${path == '/programmes' ? 'text-blue-700':'dark:text-white text-gray-700 ' }`}>Programmes</Link>
+            <Link to='/'  className={`font-semibold  ${path == '/'  ? 'text-blue-700': `${ transMode ?'text-black' : 'text-white'}` }`}>Home</Link>
+            <Link to='/programmes'  className={`font-semibold  ${path == '/programmes' ? 'text-blue-700':`${ transMode ?'text-black' : 'text-white'}` }`}>Programmes</Link>
             {/* <Link to='/dashboard'  className={`font-semibold  ${path == '/dashboard' ? 'text-blue-700':'dark:text-white text-gray-700' }`}>Dashboard</Link> */}
-            <Link to='/about'  className={`font-semibold  ${path == '/about' ? 'text-blue-700':'dark:text-white text-gray-700' }`}>About</Link>
-            <Link to='/posts'  className={`font-semibold  ${path == '/posts' ? 'text-blue-700':'dark:text-white text-gray-700' }`}>Blog</Link>
-            <Link to='/admision'  className={`font-semibold  ${path == '/admision' ? 'text-blue-700':'dark:text-white text-gray-700' }`}>Admission</Link>
+            <Link to='/about'  className={`font-semibold  ${path == '/about' ? 'text-blue-700':`${ transMode ?'text-black' : 'text-white'}` }`}>About</Link>
+            <Link to='/posts'  className={`font-semibold  ${path == '/posts' ? 'text-blue-700':`${ transMode ?'text-black' : 'text-white'}` }`}>Blog</Link>
+            <Link to='/admision'  className={`font-semibold  ${path == '/admision' ? 'text-blue-700':`${ transMode ?'text-black' : 'text-white'}` }`}>Admission</Link>
            
           </div>
 {/* 
@@ -65,7 +143,7 @@ const HeaderMenu = () => {
 
 
           {/* Buttons */}
-
+  
           {currentUser ? (<>
           <Dropdown 
           className='z-50'
@@ -130,7 +208,8 @@ const HeaderMenu = () => {
           </div>
         )}
       </Navbar>
-
+}
+    </section>
   );
 };
 

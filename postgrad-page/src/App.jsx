@@ -17,6 +17,11 @@ import PostPage from './Pages/PostPage'
 import Admision from './Pages/Admision'
 import DashCourse from './components/DashCourse'
 import DepartmentPage from './Pages/DepartmentPage'
+import Test from './Pages/Test'
+import Secondary from './components/Secondary'
+import Principal from './Pages/Principal'
+import Teacher from './Pages/Teacher'
+import Apply from './Pages/Apply'
 
 
 
@@ -27,12 +32,15 @@ function App() {
     <BrowserRouter>
     <HeaderMenu />
       <Routes>
-        <Route path='/' element={<Home />} />
+        <Route path='/' element={<Test/>} />
         <Route path='/about' element={<About />} />
         <Route path='/posts' element={<Blog />} />
+        <Route path='/principal' element={<Principal/>} />
+        <Route path='/teacher' element={<Teacher/>} />
         <Route path='/programmes' element={<Programmes/>} />
         <Route path='/admision' element={<Admision/>} />
-
+        <Route path='/secondary' element={<Secondary/>}/>
+        <Route path='/apply' element={<Apply/>} />
         <Route element={<PrivateRoute/>}>          
         <Route path='/dashboard' element={<Dashboard />} />
            </Route>
@@ -46,6 +54,7 @@ function App() {
         <Route path='/post/:postSlug' element={<PostPage />} />
         <Route path='/signin' element={<Signin />} />
         <Route path='/signup' element={<Signup />} />
+        
       </Routes>
       <Footer />
     </BrowserRouter>

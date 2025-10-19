@@ -1,9 +1,51 @@
+
 @tailwind utilities;
 @import "tailwindcss";
 @plugin "flowbite-react/plugin/tailwindcss";
 @source "../.flowbite-react/class-list.json";
 
 
+
 @plugin 'tailwind-scrollbar' {
     nocompatible: true;
 }
+
+    @font-face {
+        font-family: 'MyChalkFont'; /* Choose a name for your font */
+        src: url('fonts/mychalkfont.woff2') format('woff2'),
+             url('fonts/mychalkfont.woff') format('woff');
+        /* Add other formats like .ttf or .otf if needed for broader browser support */
+        font-weight: normal;
+        font-style: normal;
+    }
+
+@keyframes Hmove {
+  0% { height:0; }
+  100% { height:480px; }
+}
+
+*{
+    box-sizing: border-box;
+}
+.Hmovee {
+   height: 0; 
+animation: Hmove 3s ease forwards;
+}
+
+@keyframes bounceSmooth {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-30px);
+  }
+  60% {
+    transform: translateY(-15px);
+  }
+}
+
+.bounce-smooth {
+  animation: bounceSmooth 2s infinite;
+}
+
+
