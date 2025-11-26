@@ -9,13 +9,32 @@ import { useEffect } from 'react'
 
 
 const ApplicationForm = () => {
-const [states, setStates] = useState([])
+    const [firstname, setfirstname] = useState('')
+    const [othername, setothername] = useState('')
+    const [lastname, setLastname] = useState('')
+    const [email, setEmail] = useState('')
+    const [phone, setPhone] = useState('')
+    const [classname, setClassname] = useState('')
+    const [gender, setGender] = useState('')
+    const [reference, setReference] = useState('')
+    const [states, setStates] = useState([])
+    const [parent, setParent] = useState('')
     const [lga, setLga] = useState([])
     const [selectedState, setSelectedState] =useState('Abia') 
     const [selectedLga, setSelectedLga] =useState('') 
-    const amount = 10000
+    const [amount, setAmount] =  useState(10000)
+//     const [idx, setIdx] = useState(null)
+// const [tags, setTags] = useState([])
+// const TagRef = useRef({})
   
 
+    useEffect(()=>{
+
+      const fetchPay = async()=>{
+
+        const res = await fetch(`/api/api/payment/`)
+      }
+    },[])
 
   
 useEffect(()=>{
@@ -69,9 +88,11 @@ const handleSelectedLga =(e)=>{
   setSelectedLga(e.target.value)
 } 
 
-console.log(selectedState)
-console.log(selectedLga)
+const removeEle =(index)=>{
+  // tags.splice(index,1)
+  setTags(tags.filter((data)=> data.id !== index))
 
+}
 
 
     return (
@@ -137,19 +158,36 @@ console.log(selectedLga)
        <TextInput 
        type='number'
        id='amount'
+       value={amount}
+         readOnly 
        />
         </div>
 
-        <div>  <Label> Class</Label>
-       <Select>
-        <option value="Jss1"> Junior Secondary School 1</option>
-        <option value="Jss2"> Junior Secondary School 2</option>
-        <option value="Jss3"> Junior Secondary School 3</option>
-        <option value="sss1"> Senior Secondary School 1</option>
-        <option value="sss2"> Senior Secondary School 2</option>
-        <option value="sss3"> Senior Secondary School 3</option>
-       </Select>
-        </div>
+{/*    
+<div className='flex gap-1 flex-col' >
+
+<div className='w-96 min-h-10 border flex items-center gap-2 flex-wrap px-2 py-1'> 
+  {tags.length > 0 && tags.map((tag, index)=>( 
+     <div 
+      key={tag.id}
+      // ref={(e)=>TagRef.current[tag.name] = e}
+      onClick={()=>removeEle(tag.id)}
+      className='w-fit font-[inter] text-sm py-1  flex justify-between items-center bg-slate-100 rounded px-2 gap-3 text-black font-medium' > {tag.name} <CloseIcon fontSize={12}/> </div>))}
+  
+   </div>
+
+<div className='flex gap-3'> 
+
+<button className='w-fit border p-2 h-fit' onClick={()=>(setTags([...tags, {name:'Jss 1', id:Date.now()}]))}> jss1</button> 
+<button className='w-fit border p-2 h-fit' onClick={()=>(setTags([...tags, {name:'Jss 2', id:Date.now()}]))}> jss2</button> 
+<button className='w-fit border p-2 h-fit' onClick={()=>(setTags([...tags, {name:'Jss 3', id:Date.now()}]))}> jss3</button> 
+<button className='w-fit border p-2 h-fit' onClick={()=>(setTags([...tags, {name:'Sss 1', id:Date.now()}]))}> jss3</button> 
+<button className='w-fit border p-2 h-fit' onClick={()=>(setTags([...tags, {name:'Sss 2', id:Date.now()}]))} > jss4</button> 
+<button className='w-fit border p-2 h-fit' onClick={()=>(setTags([...tags, {name:'Sss 3', id:Date.now()}]))} > jss5</button> 
+
+
+</div>
+</div> */}
 
       <div>  <Label> State</Label>
        <Select onChange={(e)=>handleSelectedState(e)}>
@@ -175,10 +213,12 @@ console.log(selectedLga)
        </Select>
         </div>
 
-        <div>  <Label htmlFor='reference'> Reference No. </Label>
+        <div >  <Label htmlFor='reference'> Reference No. </Label>
        <TextInput 
-       type='number'
-       id='reference'/>
+       type='text'
+       id='reference'
+      
+        className='focus:outline-none'/>
         </div>
        
        <Button className='col-span-2'>Submit</Button>

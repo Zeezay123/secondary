@@ -1,9 +1,54 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import imageOne from '../assets/images/imageone.jpg'
 import { Badge } from 'flowbite-react'
 import CardCaro from '../components/CardCaro'
 
 const PrimInfo = () => {
+
+  const [aboutfiles, setaboutFiles] = useState({})
+
+useEffect(() => {
+    const fetchData = async ()=>{
+     const res = await fetch(`/api/settings/about`,{
+     method:'GET',
+     headers:{
+         'Content-Type': 'application/json'
+     }
+     })
+ 
+     
+     if(!res.ok) {
+         console.log(res)
+         console.log('could not get about page')
+         return
+ 
+     }
+      const data = await res.json()
+     try {
+         
+          setaboutFiles({
+            title:data.title, subtitle:data.subtitle,
+     intro:data.intro, mission:data.mission, vision:data.vision, 
+     philosophy:data.philosophy, vcMessage:data.vcMessage,
+      directorMessage:data.directorMessage, vcimage:data.vcimage,
+       directorimage:data.directorimage})
+         
+          setErrMsg('')
+          setSuccessMsg('')
+     } catch (error) {
+         setErrMsg(error.message)
+     }
+    
+ 
+ 
+ 
+    }
+ 
+    fetchData()
+ 
+   
+ }, [])
+ 
 
  const infoData = {
     main:{
@@ -28,26 +73,24 @@ with the knowledge and values to make meaningful contributions to society.`
 }
     
 
+
  
 
   return (
     
-    <section className='w-full px-2 py-4 mt-5 md:mt-20'>
-        <div className='flex w-full justify-center gap-10 items-center'>
+    <section className='w-full flex flex-col  py-4 mt-5 md:mt-20'>
+        <div className='flex px-5 w-full justify-center gap-10 items-center'>
         <div className='flex flex-col items-center md:items-start md:w-[45%] gap-5'>
          <h1 className='font-[inter] bg-gradient-to-r bg-clip-text text-transparent 
-         text-center md:text-left text-3xl md:text-5xl/snug from-blue-500 to-red-950  font-black '>{infoData.main.header} </h1>
+         text-center md:text-left text-3xl md:text-5xl/snug from-blue-500
+          to-red-950  font-black' >{aboutfiles?.vcimage}</h1>
 
-         <p className=' font-inter text-sm/normal text-justify  md:text-[1rem] '>
-        
-        {infoData.main.body}
-
-         </p>
+         <p className=' font-inter text-sm/normal text-justify  md:text-[1rem] ' dangerouslySetInnerHTML={{__html:aboutfiles?.vcMessage}}/>
 
          <h2 className='font-[inter]  text-black 
-         text-center md:text-left text-xl font-black '>{infoData.main.subheader}</h2>
+         text-center md:text-left text-xl font-black '  dangerouslySetInnerHTML={{__html:aboutfiles?.directorimage}} />
 
-         <p className ='font-inter text-sm/normal text-justify  md:text-[1rem] '>{infoData.main.subbody}</p>
+         <p className ='font-inter text-sm/normal text-justify  md:text-[1rem] '  dangerouslySetInnerHTML={{__html:aboutfiles?.directorMessage}} />
 
          <div className='flex gap-2 md:gap-5 flex-wrap'>
             
@@ -67,7 +110,7 @@ with the knowledge and values to make meaningful contributions to society.`
 
         
         </div>
-         <CardCaro/>       
+         <CardCaro />       
     </section>
   )
 }

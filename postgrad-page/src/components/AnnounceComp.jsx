@@ -87,7 +87,7 @@ const handleSubmit= async(e) =>{
     try {
         const res = await fetch(`/api/content/announcement`, {
             method:'PUT',
-            headers:{'Content-type': 'application/json'},
+            headers:{'Content-Type': 'application/json'},
             credentials: 'include',
             body: JSON.stringify(aboutfiles)
 

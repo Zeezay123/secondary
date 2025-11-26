@@ -28,67 +28,67 @@ const AboutComp = () => {
 
 
 
-const uploadVc = async () => {
-  try {
-    const formData = new FormData();
-    formData.append("file", vcFile);
+// const uploadVc = async () => {
+//   try {
+//     const formData = new FormData();
+//     formData.append("file", vcFile);
 
-    const res = await axios.post("/api/uploads/", formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-      onUploadProgress: (progressEvent) => {
-        const percent = Math.round(
-          (progressEvent.loaded * 100) / progressEvent.total
-        );
+//     const res = await axios.post("/api/uploads/", formData, {
+//       headers: { "Content-Type": "multipart/form-data" },
+//       onUploadProgress: (progressEvent) => {
+//         const percent = Math.round(
+//           (progressEvent.loaded * 100) / progressEvent.total
+//         );
         
-        setVcUploadProgress(percent); 
-      },
-    });
+//         setVcUploadProgress(percent); 
+//       },
+//     });
 
-    const data = await res.data
-    console.log(data)
-    setVcUploadProgress(null)
-    setVcImage(data);
-    setaboutFiles({ ...aboutfiles, vcimage:data });
-  } catch (error) {
-    setUploadError("Error Uploading image")
-    setVcUploadProgress(0)
-    console.log(error.message);
-  }
-};
+//     const data = await res.data
+//     console.log(data)
+//     setVcUploadProgress(null)
+//     setVcImage(data);
+//     setaboutFiles({ ...aboutfiles, vcimage:data });
+//   } catch (error) {
+//     setUploadError("Error Uploading image")
+//     setVcUploadProgress(0)
+//     console.log(error.message);
+//   }
+// };
 
 
- const uploadDr = async () =>{
-    try {
-        const formData =  new FormData()
-        formData.append('file', drFile)
+//  const uploadDr = async () =>{
+//     try {
+//         const formData =  new FormData()
+//         formData.append('file', drFile)
 
        
-    const res = await axios.post("/api/uploads/", formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-      onUploadProgress: (progressEvent) => {
-        const percent = Math.round(
-          (progressEvent.loaded * 100) / progressEvent.total
-        );
+//     const res = await axios.post("/api/uploads/", formData, {
+//       headers: { "Content-Type": "multipart/form-data" },
+//       onUploadProgress: (progressEvent) => {
+//         const percent = Math.round(
+//           (progressEvent.loaded * 100) / progressEvent.total
+//         );
       
-        setDrUploadProgress(percent); 
-      },
-    });
-       const data = await res.data
-    console.log(data)
+//         setDrUploadProgress(percent); 
+//       },
+//     });
+//        const data = await res.data
+//     console.log(data)
    
       
-        setDirectorImage(data)
-        setaboutFiles({...aboutfiles, directorimage:data})
-        setUploadError(null) 
-        setDrUploadProgress(null)
+//         setDirectorImage(data)
+//         setaboutFiles({...aboutfiles, directorimage:data})
+//         setUploadError(null) 
+//         setDrUploadProgress(null)
 
 
-    } catch (error) {
-        console.log(error.message)
-         setUploadError("Error Uploading image")
-         setDrUploadProgress(0)
-    }
- }
+//     } catch (error) {
+//         console.log(error.message)
+//          setUploadError("Error Uploading image")
+//          setDrUploadProgress(0)
+//     }
+//  }
 
 
 
@@ -175,28 +175,28 @@ const uploadVc = async () => {
  
  }
  
- const handleVcImageChange =(e)=>{
+//  const handleVcImageChange =(e)=>{
 
-   const file = e.target.files[0]
-   const pre = URL.createObjectURL(file)
-   setVcFile(file)
-   setPreview(pre)
-
-   
-
- }
-
-  const handleDrImageChange =(e)=>{
-
-   const file = e.target.files[0]
-
-   const pre = URL.createObjectURL(file)
-   setDrFile(file)
-   setDrPreview(pre)
+//    const file = e.target.files[0]
+//    const pre = URL.createObjectURL(file)
+//    setVcFile(file)
+//    setPreview(pre)
 
    
 
- }
+//  }
+
+//   const handleDrImageChange =(e)=>{
+
+//    const file = e.target.files[0]
+
+//    const pre = URL.createObjectURL(file)
+//    setDrFile(file)
+//    setDrPreview(pre)
+
+   
+
+//  }
  
  
  
@@ -238,60 +238,57 @@ const uploadVc = async () => {
       
       />
  </div> 
+      
+<div className='mb-4'>
+  <Label htmlFor='contenttitle' className='flex  gap-1 items-center' >
+       
+  Content One Title <FaAsterisk size={6} color='red'/>
+      </Label>
+      <TextInput
+      type='text'
+      id='contenttitle'
+      required
+      placeholder={aboutfiles?.vcimage || ''}
+      value={aboutfiles?.vcimage || ''}
+      onChange={(e)=>{setaboutFiles({...aboutfiles,vcimage: e.target.value})}}
+      />
+     </div>    
+
 
 <div className='min-h-32 mb-5 mt-5 gap-4 flex flex-col py-5'>
-    <Label>Vc's Message</Label>
+    <Label>Content One</Label>
          <ReactQuill theme='snow' 
          placeholder='write about your website...' className='h-32 mb-5'
          value={aboutfiles?.vcMessage || ''}
          onChange={(value)=>{setaboutFiles({...aboutfiles, vcMessage: value})}} />
        </div>
        
- <div className='mb-5 mt-10'>
-     <Label className='mb-5'> Vcs Image </Label>
- <div className='flex gap-5 mt-5 '>  
-    <FileInput
-     id="vcimage"
-     name="vcimage"
-     accept="image/*"
-     onChange={handleVcImageChange}
-    /> 
-    <Button
-     onClick={uploadVc}
-     disabled={vcUploadProgress}
-     > 
-     { vcUploadProgress ? <div className='w-16 h-16'>
-        <CircularProgressbar value={vcUploadProgress} text={`${vcUploadProgress}`} /> </div>: 'Upload'
-         }
-     </Button> </div>
- </div>
-    
+
+
+
+
 
  {preview && <div className='flex justify-center items-center' > <img src={preview} alt=""  />  </div>}
 
+       <div className='min-h-32 mb-5 mt-5 gap-4 flex flex-col py-5'>
+          <Label>Content Two Title</Label>
+               <ReactQuill theme='snow' 
+               placeholder='write about your website...' className='h-32 mb-5'
+               value={aboutfiles?.directorimage || ''}
+               onChange={(value)=>{setaboutFiles({...aboutfiles, directorimage: value})}} />
+             </div>
+
 <div className='min-h-32 mb-5 mt-5 gap-4 flex flex-col py-5'>
-    <Label>Director's Message</Label>
+    <Label>Content Two</Label>
          <ReactQuill theme='snow' 
          placeholder='write about your website...' className='h-32 mb-5'
          value={aboutfiles?.directorMessage || ''}
          onChange={(value)=>{setaboutFiles({...aboutfiles, directorMessage: value})}} />
        </div>
        
- <div className='mb-5 mt-10'>
-    <Label > Director's Image </Label>
-   <div className='flex gap-5 mt-5'>
-    <FileInput
-     id="directorimage"
-     name="directorimage"
-     accept="image/*"
-     onChange={handleDrImageChange}
-    
-    /> 
-    <Button onClick={uploadDr}  disabled={drUploadProgress} > 
-    { drUploadProgress ? <div className='w-16 h-16'> <CircularProgressbar value={drUploadProgress} text={`${drUploadProgress}`}/> </div> : 'Upload' }</Button>
-      </div>
-    
- </div>
+
+
+
 
  {drpreview && <div className='flex justify-center items-center' > <img src={drpreview} alt=""  />  </div>}
 
@@ -300,7 +297,7 @@ const uploadVc = async () => {
   
        <div className='min-h-32 mb-5 mt-5 gap-4 flex flex-col py-5'>
 
-     <Label>Intro</Label>
+     <Label>Learning Objectives</Label>
 
          <ReactQuill theme='snow' 
          placeholder='write about your website...' className='h-32 mb-5'

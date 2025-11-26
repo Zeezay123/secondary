@@ -191,10 +191,10 @@ export default function SiteSettingsAdmin() {
           <TabItem title='Blog'>
           <BlogComp/>
         </TabItem>
-
-    <TabItem title='Programmes'>
+{/* 
+    <TabItem title='Activities'>
       <ProgComp/>
-    </TabItem>
+    </TabItem> */}
         
       </Tabs>
     {/* <div className="p-6 bg-gray-50 rounded-lg shadow min-w-6xl min-h-4/5 mx-auto">

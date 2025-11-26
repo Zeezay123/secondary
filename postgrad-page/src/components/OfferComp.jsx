@@ -12,6 +12,7 @@ import classroom from '../../src/assets/images/classroom1.jpg'
 import classroomTwo from '../../src/assets/images/class1.png'
 import { useState } from 'react'
 import { FaArrowRightFromBracket } from 'react-icons/fa6'
+import { Link } from 'react-router-dom'
 
 const OfferComp = () => {
 
@@ -26,14 +27,16 @@ const [isHoverd, SetIsHovered] = useState(false)
         title:'Club',
         content:`We create in our students a culture of achievement focusing on core skills, learning culture, 
         attainment scores, and environmental safety.`,
-        image: club
+        image: club,
+        link:'/clubs'
         
     },
      {
         title:'Quiz',
         content:`We create in our students a culture of achievement focusing on core skills, learning culture, 
         attainment scores, and environmental safety. `,
-        image: cultural
+        image: cultural,
+        link:'/quiz'
         
     },
     
@@ -42,7 +45,8 @@ const [isHoverd, SetIsHovered] = useState(false)
         title:'Interhouse',
         content:`We create in our students a culture of achievement focusing on core skills, learning culture, 
         attainment scores, and environmental safety.`,
-        image: excur 
+        image: excur,
+        link:'/interhouse'
         
     },
     
@@ -50,7 +54,9 @@ const [isHoverd, SetIsHovered] = useState(false)
         title:'Excursion',
         content:`We create in our students a culture of achievement focusing on core skills, learning culture, 
         attainment scores, and environmental safety. `,
-        image: art 
+        image: art,
+        link:'/travel'
+
         
     },
     
@@ -58,7 +64,8 @@ const [isHoverd, SetIsHovered] = useState(false)
         title:'Arts and Craft',
         content:`We create in our students a culture of achievement focusing on core skills, learning culture, 
         attainment scores, and environmental safety.`,
-        image: quiz 
+        image: quiz,
+        link:'/arts' 
         
     },
 
@@ -66,18 +73,19 @@ const [isHoverd, SetIsHovered] = useState(false)
         title:'Cultural Dance',
         content:`We create in our students a culture of achievement focusing on core skills, learning culture, 
         attainment scores, and environmental safety. `,
-        image: inter 
+        image: inter,
+        link:'/culture' 
         
     },
 ]
   return (
 
-    <section className='grid grid-rows-1 w-full gap-5 p-3 '> 
+    <section className='grid grid-rows-1 md:max-w-[90rem] gap-5 p-3 mx-auto'> 
   
   <div className='flex flex-col items-center justify-center gap-5'>
     
     <h1 className='font-semibold font-[inter] text-xs bg-blue-300 p-2 rounded-full w-fit'> Our Programmes </h1> 
-    <h2 className='font-[inter] font-semibold w-fit text-3xl'> Where Creativity is the first Choice</h2>
+    <h2 className='font-[inter] text-center font-semibold w-fit text-3xl'> Where Creativity is the first Choice</h2>
     <h2 className='font-normal mb-8 w-fit md:w-[500px] text-center font-[inter]'> We channel your support into powerful, community-led programs that protect and uplift the most vulnerable children.</h2>
   </div>
 
@@ -85,10 +93,10 @@ const [isHoverd, SetIsHovered] = useState(false)
 
    {cardData.map((card,index)=>(
 
-    <div className={`overflow-hidden group relative rounded-2xl 
+    <Link className={`overflow-hidden group relative rounded-2xl 
      ${index == 0 || index == 4 ? 'w-full md:w-[700px] h-[32rem]'  : 'w-full md:w-[20.5rem] h-[32rem]'}`} key={index} 
      
-   
+    to={card.link}
     
      >
 
@@ -109,10 +117,11 @@ const [isHoverd, SetIsHovered] = useState(false)
         {card.content}
       </div>
 
-      <div className='flex items-center text-sm  text-white font-[inter] font-semibold gap-5'>  See Activity <FaArrowRightFromBracket/> </div>
+      <Link to={card.link} className='flex items-center text-sm  text-white font-[inter] font-semibold gap-5'> 
+         See Activity <FaArrowRightFromBracket/> </Link>
       </div> 
       </div> 
-    </div>
+    </Link>
 
 
    ))}

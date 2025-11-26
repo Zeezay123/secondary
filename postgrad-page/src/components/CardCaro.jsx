@@ -1,93 +1,134 @@
-import React, { useEffect,useState } from "react";
+import React,{useState, useEffect} from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Card } from "flowbite-react";
 
-
 export default function CardCaro() {
-  const [winSize, setWinSize] = useState(0)
-    
 
-
-    useEffect(()=>{
-      const handleScreenSize =()=>{
-    window.innerWidth < 620 ? setWinSize(1) : setWinSize(3)
-      }
-
-      handleScreenSize()
-       window.addEventListener('resize', handleScreenSize)
-
-       return ()=> window.removeEventListener('resize',handleScreenSize)
+  const [aboutfiles, setaboutFiles] = useState({})
+  const [errMsg, setErrMsg] = useState({})
   
-    },[])
-
+  
+  useEffect(() => {
+      const fetchData = async ()=>{
+       const res = await fetch(`/api/settings/about`,{
+       method:'GET',
+       headers:{
+           'Content-Type': 'application/json'
+       }
+       })
    
+       
+       if(!res.ok) {
+           console.log(res)
+           console.log('could not get about page')
+           return
+   
+       }
+        const data = await res.json()
+       try {
+           
+            setaboutFiles({
+              title:data.title, subtitle:data.subtitle,
+       intro:data.intro, mission:data.mission, vision:data.vision, 
+       philosophy:data.philosophy, vcMessage:data.vcMessage,
+        directorMessage:data.directorMessage, vcimage:data.vcimage,
+         directorimage:data.directorimage})
+           
+            setErrMsg('')
+      
+       } catch (error) {
+           setErrMsg(error.message)
+       }
+      
+   
+   
+   
+      }
+   
+      fetchData()
+   
+     
+   }, [])
+ 
 
-const cardData = [
-
-    {
-        title:'Learning Outcomes',
-        content:`We create in our students a culture of achievement focusing on core skills, learning culture, 
-        attainment scores, and environmental safety. We provide an environment that 
-        enables our students to thrive and optimize their abilities`
-        
-    },
-    
-    {
-        title:'Learning Outcomes',
-        content:`We create in our students a culture of achievement focusing on core skills, learning culture, 
-        attainment scores, and environmental safety. We provide an environment that 
-        enables our students to thrive and optimize their abilities`
-        
-    },
-    
-    {
-        title:'Learning Outcomes',
-        content:`We create in our students a culture of achievement focusing on core skills, learning culture, 
-        attainment scores, and environmental safety. We provide an environment that 
-        enables our students to thrive and optimize their abilities`
-        
-    },
-    
-    {
-        title:'Learning Outcomes',
-        content:`We create in our students a culture of achievement focusing on core skills, learning culture, 
-        attainment scores, and environmental safety. We provide an environment that 
-        enables our students to thrive and optimize their abilities`
-        
-    },
-]
-
-
-  var settings = {
+  const settings = {
     dots: false,
     infinite: true,
     speed: 1000,
-    slidesToShow: winSize,
+    slidesToShow: 3,
     slidesToScroll: 1,
     autoplay: true,
-  autoplaySpeed: 3000,
-  arrows: false,   
-  swipeToSlide: true,
+    autoplaySpeed: 3000,
+    arrows: false,
+    swipeToSlide: true,
+    responsive: [
+      {
+        breakpoint: 1024, // tablets and small laptops
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 640, // phones
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
   };
+
   return (
-    <section className="w-full mx-auto py-10"> 
-         <Slider {...settings}>
-     {cardData.map((card,index)=>(
-        <div className="px-5 flex flex-col">
-<div className="flex flex-col h-full">
-    
-      <Card key={index} className=" bg-white h-full "> 
-        <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{card.title}</h5>
-        <p className="font-normal text-gray-700 dark:text-gray-400"> {card.content}</p>
-        </Card>
-     </div></div>
-    ))}   
-    
-    </Slider>
+    <section className="md:px-10 md:py-5 p-3">
+      <Slider {...settings}>
+      
+          <div className="px-3">
+            <Card className="w-full h-full bg-white shadow-md rounded-xl hover:shadow-lg transition-shadow duration-300">
+              <h5 className="text-2xl font-bold tracking-tight text-gray-900 mb-3">
+                Mission
+              </h5>
+              <p className="font-normal text-gray-700 text-sm leading-relaxed"  dangerouslySetInnerHTML={{__html:aboutfiles?.mission}}/>
+            </Card> 
+            
+          </div>
+
+          
+          <div className="px-3">
+            <Card className="w-full h-full bg-white shadow-md rounded-xl hover:shadow-lg transition-shadow duration-300">
+              <h5 className="text-2xl font-bold tracking-tight text-gray-900 mb-3">
+                Vision
+              </h5>
+              <p className="font-normal text-gray-700 text-sm leading-relaxed" dangerouslySetInnerHTML={{__html:aboutfiles?.vision}}/>
+            </Card> 
+            
+          </div>
+
+          
+          <div className="px-3">
+            <Card className="w-full h-full bg-white shadow-md rounded-xl hover:shadow-lg transition-shadow duration-300">
+              <h5 className="text-2xl font-bold tracking-tight text-gray-900 mb-3">
+                Philosophy
+              </h5>
+              <p className="font-normal text-gray-700 text-sm leading-relaxed" dangerouslySetInnerHTML={{__html:aboutfiles?.philosophy}}/>
+              
+              
+            </Card> 
+            
+          </div>
+          
+          <div className="px-3">
+            <Card className="w-full h-full bg-white shadow-md rounded-xl hover:shadow-lg transition-shadow duration-300">
+              <h5 className="text-2xl font-bold tracking-tight text-gray-900 mb-3">
+                Learning Objectives
+              </h5>
+              <p className="font-normal text-gray-700 text-sm leading-relaxed" dangerouslySetInnerHTML={{__html:aboutfiles?.intro}}/>
+               
+            </Card> 
+            
+          </div>
+       
+      </Slider>
     </section>
- 
   );
 }
-

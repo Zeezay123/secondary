@@ -1,28 +1,39 @@
 import React from 'react'
 import SecondHero from '../components/SecondHero'
 import CallToAction from '../components/CallToAction'
-import image from '../assets/images/school4.jpg'
+import image from '../assets/principal.jpg'
 
 const Principal = () => {
   return (
-    <section className="grid grid-rows-1">
+    <section className="flex flex-col">
 
-<SecondHero title='Leadership' content='Led by Director of Education John Todd, our respected leadership team bring together a wealth of educational experience.'/>
-  
+      <SecondHero
+        title="Leadership"
+        content="Led by Director of Education John Todd, our respected leadership team brings together a wealth of educational experience."
+      />
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16  mx-auto px-5 md:px-20 mt-16 w-full max-w-7xl">
 
 
+        <div className="w-full h-[20rem] md:h-[40rem]  rounded-3xl overflow-hidden mt-10">
+          <img
+            src={image}
+            alt="Principal"
+            className="w-full h-full rounded-3xl object-cover"
+          />
+        </div>
 
-<div className="grid grid-cols-2 border-t-4 border-t-blue-950  mx-15 mt-20">
-<div className='mt-5 w-[35rem] h-[30rem]  rounded-3xl object-cover'> 
-<img src={image} alt="" className='w-full h-full object-cover rounded-3xl' />
-</div>
 
-<div className='w-'> 
-  <h2 className='font-[inter] mt-5 font-bold text-sm'>Principal/DELSU Secondary School</h2>
-  <h1 className="font-[inter] font-semibold text-3xl py-5 text-blue-950 ">Dr. Nathan Something</h1>
-   
-<div className="flex flex-col items-center justify-center"> <p className=" text-justify font-medium text-sm/loose">
- Vision: Charterhouse Lagos aspires to be Nigeria’s foremost educational institution,
+        <div className="flex flex-col justify-center border-t-blue-800 border-t-2 py-5">
+          <h2 className="font-[inter] font-normal text-xl text-blue-900 mt-2">
+            Principal / DELSU Secondary School
+          </h2>
+          <h1 className="font-[inter] font-semibold text-3xl pb-2 md:text-4xl pt-5 md:pt-15 md:pb-8 text-blue-950">
+            Dr. Nathan Something
+          </h1>
+
+          <p className="text-justify font-normal text-sm md:text-base leading-relaxed text-gray-800">
+             Vision: Charterhouse Lagos aspires to be Nigeria’s foremost educational institution,
   known for academic excellence and all-around student development.
    We are committed to offering an unmatched educational experience, 
    nurturing well-rounded individuals poised for global leadership.
@@ -52,22 +63,18 @@ const Principal = () => {
    nurturing well-rounded individuals poised for global leadership.
     Our goal is to shape proactive contributors, ready to make a significant
      impact in a better, more connected world.
-</p>
-  </div>
+          </p>
+        </div>
 
+      </div>
 
-</div>
-  </div>
+      <CallToAction />
 
-
-
-
-
-  
-  <CallToAction/> 
-
-  </section>
+    </section>
   )
 }
 
 export default Principal
+
+
+

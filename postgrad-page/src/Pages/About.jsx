@@ -40,77 +40,79 @@ const title = data?.title || ''
 
 
 return(
-  <section className="grid grid-rows-1">
+  <section className="">
 
 <SecondHero/>
   
-<div className="grid grid-rows-1 border-t border-t-blue-950  mx-15 mt-20">
-<h1 className="font-[inter] font-bold text-4xl pt-5 text-blue-950 ">Values</h1>
+<div className="space-y-16 px-4 md:px-20 py-10">
 
-<div className="flex items-center"> <p className="font-normal text-2xl pt-10 px-20">
-  Excellence, Respect, Integrity, Courtesy, Service, Wellbeing
-  </p></div>
+  {/* Values */}
+  <section className="border-t border-blue-950 pt-6">
+    <h1 className="font-[inter] font-bold text-2xl sm:text-3xl md:text-4xl text-blue-950">
+      Values
+    </h1>
+    <p className="font-normal text-base sm:text-lg md:text-2xl mt-6 text-blue-900 text-center md:text-left">
+      Excellence, Respect, Integrity, Courtesy, Service, Wellbeing
+    </p>
+  </section>
 
+  {/* Vision and Mission */}
+  <section className="border-t-4 border-blue-950 pt-6">
+    <h1 className="font-[inter] font-bold text-2xl sm:text-3xl md:text-4xl text-blue-950">
+      Vision and Mission
+    </h1>
 
-</div>
+    <div className="flex flex-col items-center text-blue-900 mt-6 space-y-10">
+      <p className="max-w-4xl text-justify text-base sm:text-lg md:text-2xl leading-relaxed">
+        <strong>Vision:</strong> Charterhouse Lagos aspires to be Nigeria’s foremost educational institution, known for
+        academic excellence and all-around student development. We are committed to offering an unmatched educational
+        experience, nurturing well-rounded individuals poised for global leadership. Our goal is to shape proactive
+        contributors, ready to make a significant impact in a better, more connected world.
+      </p>
+      <p className="max-w-4xl text-justify text-base sm:text-lg md:text-2xl leading-relaxed">
+        <strong>Mission:</strong> Charterhouse Lagos delivers a transformative, holistic education that fosters academic
+        excellence, character development, and global citizenship. We empower students with skills, values, and
+        opportunities, preparing them to thrive in a diverse and dynamic world while upholding ethical standards and
+        making a positive societal impact.
+      </p>
+    </div>
+  </section>
 
+  {/* Learning Principles */}
+  <section className="border-t-4 border-blue-950 pt-6">
+    <h1 className="font-[inter] font-bold text-2xl sm:text-3xl md:text-4xl text-blue-950">
+      Learning Principles
+    </h1>
 
-<div className="grid grid-rows-1 border-t-4 border-t-blue-950  mx-15 mt-20">
-<h1 className="font-[inter] font-bold text-4xl pt-5 text-blue-950 ">Vison and Mission</h1>
+    <ul className="max-w-4xl mx-auto text-blue-900 list-disc list-inside mt-6 space-y-4 text-base sm:text-lg md:text-2xl leading-relaxed">
+      <li>Learning needs to be purposeful and directed.</li>
+      <li>Learning needs to be adapted to each individual to support their needs.</li>
+      <li>Learning is contextual.</li>
+    </ul>
 
-<div className="flex flex-col items-center justify-center"> <p className="w-[80%] text-justify font-normal text-2xl/normal py-10 px-20">
- Vision: Charterhouse Lagos aspires to be Nigeria’s foremost educational institution, known for academic excellence and all-around student development. We are committed to offering an unmatched educational experience, nurturing well-rounded individuals poised for global leadership. Our goal is to shape proactive contributors, ready to make a significant impact in a better, more connected world.
-</p>
-<p className="w-[80%] text-justify font-normal text-2xl/normal py-10 px-20"> Mission: Charterhouse Lagos delivers a transformative, holistic education that fosters academic excellence, character development, and global citizenship. We empower students with skills, values, and opportunities, preparing them to thrive in a diverse and dynamic world while upholding ethical standards and making a positive societal impact.
- </p>
-  </div>
+    <div className="font-[inter] font-bold text-lg md:text-xl text-blue-950 mt-10 md:ml-10">
+      Two Key Outcomes:
+    </div>
 
+    <ol className="max-w-4xl mx-auto list-decimal list-inside mt-6 space-y-4 text-blue-900 text-base sm:text-lg md:text-2xl leading-relaxed">
+      <li>The long-term retention of valuable knowledge, concepts, and skills.</li>
+      <li>The ability to transfer what has been retained into different contexts and situations.</li>
+    </ol>
+  </section>
 
-</div>
-
-
-<div className="grid grid-rows-1 border-t-4 border-t-blue-950  mx-15 mt-20">
-<h1 className="font-[inter] font-bold text-4xl pt-5 text-blue-950 ">Learning Principles</h1>
-
-<div className="flex flex-col items-center justify-center"> <ul className="w-[80%] font-[inter] text-justify font-medium text-2xl/normal py-10 px-20">
- {/* ’s foremost educational institution, known for academic excellence and all-around student development. We are committed to offering an unmatched educational experience, nurturing well-rounded individuals poised for global leadership. Our goal is to shape proactive contributors, ready to make a significant impact in a better, more connected world. */}
-<li className="">  Learning needs to be purposeful and directed.</li>
-<li > Learning needs to be adapted to each individual to support their needs.</li>
-<li> Learning is contextual.</li>
-</ul>
- </div>
-
-
-<div className="flex pl-20 items-center justify-start md:ml-35 font-[inter]  font-bold text-xl w-[70%]"> Two Key Outcomes:
-</div>
-
-
-<div className="flex justify-center items-center ">
-
-<ol className="w-[80%] text-justify  font-[inter] font-medium text-2xl/normal py-10 px-20">
-
- {/* Mission: Charterhouse Lagos delivers a transformative, holistic education that fosters academic excellence, character development, and global citizenship. We empower students with skills, values, and opportunities, preparing them to thrive in a diverse and dynamic world while upholding ethical standards and making a positive societal impact. */}
- 
- <li>The long-term retention of valuable knowledge, concepts, and skills.</li>
- <li>The ability to transfer what has been retained into different contexts and situations.</li>
- </ol>
-</div>
- 
-
-
-</div>
-
+  {/* Learning Drivers */}
   
-<div className="grid grid-rows-1 border-t border-t-blue-950  mx-15 mt-20">
-<h1 className="font-[inter] font-bold text-4xl pt-5 text-blue-950 ">Learning Drivers
-</h1>
-
-<div className="flex items-center"> <p className="font-normal text-2xl pt-10 px-20">
-  Sustainability, Technology, Morality, Future Employability and Wellbeing.
-  </p></div>
-
+  <section className="border-t border-blue-950 pt-6">
+    <h1 className="font-[inter] font-bold text-2xl md:text-4xl text-blue-950">
+      Learning Drivers
+    </h1>
+    <p className="font-normal text-base sm:text-lg md:text-2xl mt-6 text-blue-900 text-center md:text-left">
+      Sustainability, Technology, Morality, Future Employability and Wellbeing.
+    </p>
+  </section>
 
 </div>
+
 
   {/* <div className="bg-gray-50 text-gray-800 mt-20">
 

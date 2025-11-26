@@ -7,7 +7,7 @@ import { FaAsterisk } from "react-icons/fa";
 
 const HomeComp = () => {
 
-const [aboutfiles, setaboutFiles] = useState({})
+const [aboutfiles, setaboutFiles] = useState({title:"", subtitle:"", intro:""})
 const [errMsg, setErrMsg] = useState('')
 const [successMsg, setSuccessMsg] = useState('')
 
@@ -22,14 +22,14 @@ useEffect(() => {
 
     
     if(!res.ok) {
-        console.log(res)
+
         console.log('could not get homepage')
         return
 
     }
     
     const data = await res.json()
-    
+
     try {
          
          setaboutFiles({title:data.title, subtitle:data.subtitle, intro:data.intro})

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Sidebar, SidebarCollapse, SidebarItem, SidebarItemGroup, SidebarItems } from 'flowbite-react'
-import {HiUser, HiArrowSmRight, HiDocumentText, HiDocumentSearch, HiOutlineUser, HiOutlineUserGroup, HiOfficeBuilding, HiPencil} from 'react-icons/hi'
+import {HiUser, HiArrowSmRight, HiDocumentText, HiDocumentSearch, HiOutlineUser, HiOutlineUserGroup, HiOfficeBuilding, HiPencil, HiUsers, HiDocumentReport, HiOutlineDocumentRemove, HiOutlineDocumentDownload, HiOutlineDatabase, HiArchive} from 'react-icons/hi'
 import { useLocation, Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 
@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux'
 const DashSidebar = () => {
   const {currentUser} = useSelector(state=>state.user)
   const location = useLocation();
+  const [clubs, setClubs] = useState(['one','two','three'])
  const [tab, setUseTab] = useState('')
  const dispatch = useDispatch()
 
@@ -58,6 +59,64 @@ if(tabFromUrl){
       Profile
      </SidebarItem></Link>
 
+{<SidebarCollapse label='Clubs' icon={HiDocumentReport}>
+   <Link to={`/dashboard?tab=addclub`}>  <SidebarItem>Add Clubs</SidebarItem></Link>
+   {clubs.map((club, index)=> (
+
+      <Link key={index} to={`/dashboard?tab=${club}`}> <SidebarItem active={tab===club} as='div'>{club} </SidebarItem></Link>
+     ))}  </SidebarCollapse> }
+
+     {
+       currentUser.isAdmin && (
+     <SidebarCollapse icon={HiArchive} label='School Life'> 
+     
+     
+
+     <Link to={'/dashboard?tab=inter'}> 
+     <SidebarItem
+     active={tab === 'inter'}
+     icon={HiDocumentText}
+     as='div'
+     > Interhouse </SidebarItem>
+     </Link>
+     
+     <Link to={'/dashboard?tab=anthem'}> 
+     <SidebarItem
+     active={tab === 'staff'}
+     icon={HiDocumentText}
+     as='div'
+     > Anthem </SidebarItem>
+     </Link>
+     <Link to={'/dashboard?tab=excur'}> 
+     <SidebarItem
+     active={tab === 'excur'}
+     icon={HiUsers}
+     as='div'
+     > Excursion </SidebarItem>
+     
+     </Link>
+      <Link to={'/dashboard?tab=culture'}> 
+     
+     <SidebarItem
+     active={tab === 'culture'}
+     icon={HiDocumentText}
+     as='div'
+     > Culture</SidebarItem>
+     </Link>
+     
+      <Link to={'/dashboard?tab=quiz'}> 
+     
+     <SidebarItem
+     active={tab === 'quiz'}
+     icon={HiDocumentText}
+     as='div'
+     > Quiz </SidebarItem>
+     </Link>
+     </SidebarCollapse>
+     
+       )
+      }
+
 
      {
       currentUser.isAdmin && (
@@ -87,37 +146,9 @@ if(tabFromUrl){
       )
      }
 
-     {/* {
-      currentUser.isAdmin && (
- <Link to={'/dashboard?tab=course'}> 
-
-   <SidebarItem
-   active={tab === 'course'}
-   icon={HiOutlineUserGroup} as='div'>
-    Courses
-   </SidebarItem>
-   
-   </Link>
-      )
-     } */}
-
-{
-  currentUser.isAdmin && (
-    <SidebarCollapse icon={HiOfficeBuilding} label='Schools'>
- <Link to={'/dashboard?tab=secondary'}>  <SidebarItem active={tab === 'secondary'} 
-   icon={HiPencil} as='div'>
-    Secondary
-   </SidebarItem></Link> 
 
 
 
-  <Link to={'/dashboard?tab=primary'}> <SidebarItem active={tab === 'primary'} 
-   icon={HiPencil} as='div'>
-    Primary
-   </SidebarItem></Link> 
-    </SidebarCollapse>
-  )
-}
      
      {
       currentUser.isAdmin && (
@@ -126,7 +157,7 @@ if(tabFromUrl){
    <SidebarItem
    active={tab === 'about'}
    icon={HiDocumentText} as='div'>
-    About
+    Top Page
    </SidebarItem>
    
    </Link>
@@ -134,17 +165,80 @@ if(tabFromUrl){
      }
 
 
+{/* Application info */}
+{
+  currentUser.isAdmin && (
+    <SidebarCollapse icon={HiDocumentReport} label='Reports'>
+       <Link to={'/dashboard?tab=application'}>
+        <SidebarItem
+        active={tab=== 'application'} 
+        icon={HiOutlineDocumentRemove}
+        as='div'>
+         Application Info
+        </SidebarItem>
+       </Link>
+       <Link to={'/dashboard?tab=application'}>
+        <SidebarItem
+        active={tab=== 'application'} 
+        icon={HiOutlineDocumentRemove}
+        as='div'>
+           Form
+        </SidebarItem>
+       </Link>
+
+      <Link to={'/dashboard?tab=payment'}>
+      <SidebarItem as='div' 
+      active={tab==='payment'}   
+      icon={HiOutlineDocumentDownload}
+      >
+        Payment 
+      </SidebarItem>
+      </Link>
+
+    </SidebarCollapse>
+  )
+}
+
+
+{/* Staff info */}
+
     {
       currentUser.isAdmin && (
- <Link to={'/dashboard?tab=staff'}> 
+<SidebarCollapse icon={HiDocumentText} label='Directory'> 
 
-   <SidebarItem
-   active={tab === 'staff'}
-   icon={HiDocumentText} as='div'>
-    Directory
-   </SidebarItem>
-   
-   </Link>
+<Link to={'/dashboard?tab=staff'}> 
+  <SidebarItem
+  active={tab === 'staff'}
+  icon={HiDocumentText}
+  as='div'
+  > Pricinpal </SidebarItem>
+</Link>
+<Link to={'/dashboard?tab=staff'}> 
+  <SidebarItem
+  active={tab === 'staff'}
+  icon={HiDocumentText}
+  as='div'
+  > Teachers </SidebarItem>
+</Link>
+
+<Link to={'/dashboard?tab=staff'}> 
+  <SidebarItem
+  active={tab === 'staff'}
+  icon={HiDocumentText}
+  as='div'
+  > Prefects </SidebarItem>
+</Link>
+<Link to={'/dashboard?tab=staff'}> 
+  <SidebarItem
+  active={tab === 'staff'}
+  icon={HiUsers}
+  as='div'
+  > Alumni </SidebarItem>
+</Link>
+
+
+</SidebarCollapse>
+
       )
      }
 

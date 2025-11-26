@@ -1,10 +1,21 @@
-import React from 'react'
+import React, {useState,useEffect} from 'react'
+import { useSelector } from 'react-redux';
+import { FaMoon } from 'react-icons/fa6';
+import { useDispatch } from 'react-redux';
+import {toggleTheme} from '../Redux/theme/themeslice.js'
+import { signOutSuccess } from '../Redux/user/slice.js';
+
 
 const Footer = () => {
+const dispatch = useDispatch();
+
+  const currentUser = useSelector(state => state.user.currentUser);
+
+
   return (
     <div>
-        {/* <!-- ========== FOOTER ========== --> */}
-<footer className="mt-auto w-full max-w-[85rem] py-10 px-4 sm:px-6 lg:px-8 mx-auto">
+        { !currentUser && 
+<footer className="mt-auto w-full max-w-[85rem] py-10 px-4 sm:px-6 lg:px-8 mx-auto sticky">
   {/* <!-- Grid --> */}
   <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-10 mt-20">
     <div className="col-span-full hidden lg:col-span-1 lg:block">
@@ -103,7 +114,7 @@ const Footer = () => {
     </div>
   </div>
 </footer>
-
+}
     </div>
   )
 }

@@ -23,6 +23,35 @@
   0% { height:0; }
   100% { height:480px; }
 }
+th, td{
+  width: 150px;
+  padding: 5px;
+  display: flex;
+}
+th{
+  background-color: rgb(244, 247, 254);
+  font-family: 'inter';
+   font-size: 0.9em;
+   color: black;
+}
+td{
+  color: rgb(139, 138, 138);
+   font-size: 0.8em;
+}
+table{
+  border: 1px solid gray;
+  
+}
+tr{
+  display: flex;
+}
+
+h1,h2,h3,h4,h5,h6,p {
+  font-family: Inter, Arial, Helvetica, sans-serif;
+  color:black
+}
+
+
 
 *{
     box-sizing: border-box;

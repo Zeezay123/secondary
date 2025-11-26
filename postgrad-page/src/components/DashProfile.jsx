@@ -194,6 +194,14 @@ const handleSignout =async()=>{
 </Link>
 )}
  
+ {currentUser.isAdmin && ( 
+  <Link to={'/create-activity'}>  
+ 
+  <Button type='button' className='w-full'>
+  Create Activity 
+</Button>
+</Link>
+)}
     </form>
 
     <div className='flex text-red-500 justify-between mt-5 '> 

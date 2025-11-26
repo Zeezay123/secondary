@@ -10,6 +10,7 @@ import settingRoutes from './Routes/settings.route.js'
 import staffRoutes from './Routes/staff.route.js'
 import cookieParser from 'cookie-parser';
 import contentRoutes from './Routes/content.js'
+import paymentRoutes from './Routes/payments.js'
 import multer from 'multer';
 
 dotenv.config();
@@ -48,6 +49,7 @@ app.use('/api/settings', settingRoutes)
 app.use('/api/staff', staffRoutes)
 app.use('/api/content',contentRoutes )
 app.use('/api/post',postRoutes)
+app.use('/api/payment',paymentRoutes)
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500; // Use custom status code or default to 500
