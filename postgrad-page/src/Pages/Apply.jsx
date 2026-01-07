@@ -8,20 +8,52 @@ import { useEffect } from 'react'
 import ApplicationForm from './ApplicationForm'
 import Instruction from './Instruction'
 import PaystackForm from './PaystackForm'
-import image from '../assets/part.jpg'
+import PortalCTA from '../components/PortalCTA'
 
 
 
 const Apply = () => {
-    
+
 const [stepButt, setStepButt]= useState(true);
 const [payButt, setPayButt]= useState(false);
 const [formButt, setFormButt]= useState(false);
+const [stages, setStages]= useState([]);
+const [reference, setreference]= useState('');
+const [childnum, setChildnum]= useState(null);
+const [amount, setAmount]= useState(0);
+
+
+useEffect(()=>{
+  fetchdata()
+},[])
+
+
+const fetchdata = async()=>{
+  const res = await fetch(`api/application/stages`)
+  if(!res.ok){
+    console.log('error fetching data')
+  }
+  const data = await res.json()
+  setStages(data)
+}
+
+const handleVerify= async(reference)=>{
+
+  const res = await fetch(`/api/payment/${reference}`)
+  if(!res.ok){
+    return alert('Invalid Reference Number')
+  }   
+  const data = await res.json()
+  console.log(data)
+  alert(`Payment of N${data.amount} Successful for ${data.name}. You can now proceed to fill the application form.`)
+  setChildnum(data.children)
+  setAmount(data.amount)
+  setFormButt(true)
+ 
+}
 
 const handleStepButton=()=>{
   setFormButt(false)
-  setStepButt(false)
-  setPayButt(true)
 }
 
 
@@ -31,36 +63,57 @@ const handleStepButton=()=>{
   return (
     <section className='flex flex-col justify-between items-center w-full '>
    <SecondHero title='Submit Your Application'/>
-    <div className='flex flex-col  h-fit md:min-w-5xl items-center p-10 rounded border border-slate-100 shadow max-w-4xl -mt-10 z-10 md:mb-20 bg-white'>
 
-      <div className='flex gap-2 items-center'>
-         <span className='flex font-[inter] border text-sm border-slate-50 font-medium justify-center items-center w-6 h-6 rounded-full shadow '>1</span> <span className='w-10 h-[2px] rounded-full bg-blue-800'> </span>
-          <span className='flex font-[inter] border text-sm border-slate-50 font-medium justify-center items-center w-6 h-6 rounded-full shadow '>2</span> <span className='w-10 h-[2px] rounded-full bg-blue-800'></span> 
-          <span className='flex font-[inter] border text-sm border-slate-50 font-medium justify-center items-center w-6 h-6 rounded-full shadow '>3</span> </div>
+   <div className='px-auto py-12 bg-slate-100 w-full'>
+     <div className='grid max-w-7xl mx-auto px-auto'>
 
- { stepButt && <Instruction/>}
-  {payButt && <PaystackForm setFormButt={setFormButt} setPayButt={setPayButt} setStepButt={setStepButt}/> }
-  {formButt && <ApplicationForm/> }
+      <div>
+        <h1 className='text-3xl font-bold text-center mb-2'>Application Process</h1>
+        <h4 className='text-center text-sm text-gray-500'> Follow these simple steps to complete your application and join our school community.</h4>
+      </div> 
+
+      <div className='grid md:grid-cols-3 lg:grid-cols-4 gap-8 mt-12 mb-20'>
+        
+          
+          {stages.map((stage)=>(
+<div className='flex flex-col items-center  p-5  rounded-lg ' key={stage.id}>
+             <div className='w-12 h-12 flex items-center justify-center rounded-full bg-blue-950 text-blue-100 font-bold text-xl mb-4'>{stage?.stage_number || '1'}</div>
+          <h2 className='font-semibold text-lg mb-2'>{`Stage ${stage?.stage_number}`}</h2>
+          <p className='text-center text-gray-500 text-xs/normal'>{stage?.description}</p>
+        
+                </div>
+          ))}
+         
+
+      </div>
+
+     </div>
+   </div>
     
-    { stepButt &&<Button onClick={handleStepButton} className='mt-30'> Pay Now </Button>}
+ {<PaystackForm setFormButt={setFormButt} setPayButt={setPayButt} setStepButt={setStepButt}/> }
+
+ <section className='mb-12'>
+  <div className='flex flex-col gap-4  bg-slate-100 md:rounded-lg px-10 py-10 md:w-4xl md:mx-auto mt-5'>
+   <div className='flex flex-col gap-3 '> 
+    <Label htmlFor='name'> Enter your reference Number to verify</Label>
+      <div className='flex gap-5 items-center '>         
+              <TextInput type='text'
+                className='bg-slate-50 w-full'
+                required
+                id='name'
+                value={reference}
+                onChange={(e)=>setreference(e.target.value)} />
+               <Button onClick={()=>handleVerify(reference)}> Verify </Button>
+                </div> 
+                
+                </div> 
+  </div>
+ </section>
+  {formButt && <ApplicationForm   reference={reference}  amount={amount}/> }
     
-    </div>
+    {/* { stepButt &&<Button onClick={handleStepButton} className='mt-30'> Pay Now </Button>} */}
 
-
-<div className=' md:w-7xl   max-h-64 flex flex-col justify-center items-center rounded-3xl bg-center mx-auto p-20 md:gap-5 gap-2'
-style={{backgroundImage:`url(${image})`}}
->
-<h1 className='font-[inter] font-bold md:text-5xl  text-white'> Already a Part of DELSU Staff School? </h1>
-
-<p className='font-[inter] md:max-w-xl  text-wrap text-center text-white '> Login to your portal to get the latest update about you child/student, results, timetable, classes and many more features</p>
-
-<div className='flex gap-5 items-center justify-center'
-
->
-  <div className='w-fit p-2 md:px-7 flex items-center justify-center font-[inter] font-medium bg-white text-black hover:bg-slate-100 rounded'> Teachers</div>
-  <div className='w-fit p-2 md:px-7 flex items-center justify-center font-[inter] font-medium border-white border-2 text-white rounded'>Students</div>
-</div>
-</div>
+<PortalCTA />
  
     </section>
   )

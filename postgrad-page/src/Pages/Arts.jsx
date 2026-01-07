@@ -1,6 +1,7 @@
 import React from 'react'
 import SecondHero from '../components/SecondHero'
 import Divider from '../components/Divider'
+import PortalCTA from '../components/PortalCTA'
 import excur from '../../src/assets/images/excursion.jpg'
 
 
@@ -73,6 +74,8 @@ const Arts = () => {
             ))}
 
          </div>
+
+        <PortalCTA />
 
         </section>
   )

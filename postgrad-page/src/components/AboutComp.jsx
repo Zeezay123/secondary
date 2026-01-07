@@ -10,7 +10,7 @@ import 'react-circular-progressbar/dist/styles.css'
 
 
 const AboutComp = () => {
- const [aboutfiles, setaboutFiles] = useState({})
+ const [aboutfiles, setaboutFiles] = useState('')
  const [errMsg, setErrMsg] = useState('')
  const [successMsg, setSuccessMsg] = useState('')
  const [preview, setPreview] = useState('')
@@ -109,6 +109,7 @@ const AboutComp = () => {
  
      }
       const data = await res.json()
+  
      try {
          
           setaboutFiles({
@@ -216,8 +217,8 @@ const AboutComp = () => {
       type='text'
       id='title'
       required
-      placeholder={aboutfiles?.title || ''}
-      value={aboutfiles?.title || ''}
+      placeholder={aboutfiles.title}
+      value={aboutfiles?.title }
       onChange={(e)=>{setaboutFiles({...aboutfiles,title: e.target.value})}}
       />
      </div>    
@@ -229,8 +230,8 @@ const AboutComp = () => {
       <TextInput
       type='text'
       id='subtitle'
-      value={aboutfiles?.subtitle || ''}
-      placeholder={aboutfiles?.subtitle || ''}
+      value={aboutfiles?.subtitle }
+      placeholder={aboutfiles?.subtitle }
       required
    
  
@@ -248,9 +249,9 @@ const AboutComp = () => {
       type='text'
       id='contenttitle'
       required
-      placeholder={aboutfiles?.vcimage || ''}
-      value={aboutfiles?.vcimage || ''}
-      onChange={(e)=>{setaboutFiles({...aboutfiles,vcimage: e.target.value})}}
+      placeholder={aboutfiles?.vcimage }
+      value={aboutfiles?.vcimage }
+      onChange={(e)=>{setaboutFiles({...aboutfiles, vcimage: e.target.value})}}
       />
      </div>    
 
@@ -259,7 +260,7 @@ const AboutComp = () => {
     <Label>Content One</Label>
          <ReactQuill theme='snow' 
          placeholder='write about your website...' className='h-32 mb-5'
-         value={aboutfiles?.vcMessage || ''}
+         value={aboutfiles?.vcMessage }
          onChange={(value)=>{setaboutFiles({...aboutfiles, vcMessage: value})}} />
        </div>
        
@@ -274,7 +275,7 @@ const AboutComp = () => {
           <Label>Content Two Title</Label>
                <ReactQuill theme='snow' 
                placeholder='write about your website...' className='h-32 mb-5'
-               value={aboutfiles?.directorimage || ''}
+               value={aboutfiles?.directorimage }
                onChange={(value)=>{setaboutFiles({...aboutfiles, directorimage: value})}} />
              </div>
 
@@ -282,7 +283,7 @@ const AboutComp = () => {
     <Label>Content Two</Label>
          <ReactQuill theme='snow' 
          placeholder='write about your website...' className='h-32 mb-5'
-         value={aboutfiles?.directorMessage || ''}
+         value={aboutfiles?.directorMessage }
          onChange={(value)=>{setaboutFiles({...aboutfiles, directorMessage: value})}} />
        </div>
        
@@ -301,7 +302,7 @@ const AboutComp = () => {
 
          <ReactQuill theme='snow' 
          placeholder='write about your website...' className='h-32 mb-5'
-         value={aboutfiles?.intro || ''}
+         value={aboutfiles?.intro }
          onChange={(value)=>{setaboutFiles({...aboutfiles, intro: value})}} />
        </div>
 
@@ -312,7 +313,7 @@ const AboutComp = () => {
 
          <ReactQuill theme='snow' 
          placeholder='write about your website...' className='h-32 mb-5'
-         value={aboutfiles?.mission || ''}
+         value={aboutfiles?.mission }
          onChange={(value)=>{setaboutFiles({...aboutfiles, mission: value})}} />
        </div>
  
@@ -324,7 +325,7 @@ const AboutComp = () => {
 
          <ReactQuill theme='snow' 
          placeholder='write about your website...' className='h-32 mb-5'
-         value={aboutfiles?.vision || ''}
+         value={aboutfiles?.vision }
          onChange={(value)=>{setaboutFiles({...aboutfiles, vision: value})}} />
        </div>
  
@@ -335,7 +336,7 @@ const AboutComp = () => {
 
          <ReactQuill theme='snow' 
          placeholder='write about your website...' className='h-32 mb-5'
-         value={aboutfiles?.philosophy || ''}
+         value={aboutfiles?.philosophy }
          onChange={(value)=>{setaboutFiles({...aboutfiles, philosophy: value})}} />
        </div>
  

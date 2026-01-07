@@ -17,13 +17,10 @@ const [postIdToDelete, setPostIdToDelete] = useState('')
 useEffect(() => {
 const fetchPost = async () => {
   try {
-    console.log('Fetching posts for user:', currentUser._id);
-    const res = await fetch(`/api/post/getposts?userId=${currentUser._id}`)
-    
-    console.log('Response status:', res.status);
-    console.log('Response headers:', res.headers.get('content-type'));
-    
-    // Check if response is ok before trying to parse JSON
+
+    const res = await fetch(`/api/post/getposts?userId=${currentUser.id}`)
+
+
     if (!res.ok) {
       console.error('API response not ok:', res.status, res.statusText);
       return;
@@ -38,12 +35,14 @@ const fetchPost = async () => {
     
     // Get response text first to debug
     const responseText = await res.text();
-    console.log('Raw response:', responseText);
+    // console.log('Raw response:', responseText);
     
     // Try to parse JSON
     if (responseText) {
       const data = JSON.parse(responseText);
-      console.log('Parsed data:', data);
+     
+  
+    
       
       if (data.posts) {
         setUserPosts(data.posts);
@@ -78,8 +77,8 @@ if (currentUser && currentUser.isAdmin) {
 const handleShowMore = async()=>{
  const startIndex = userPosts.length
  try {
-   console.log('Loading more posts, startIndex:', startIndex);
-   const res = await fetch(`/api/post/getposts?userId=${currentUser._id}&startIndex=${startIndex}`)
+  
+   const res = await fetch(`/api/post/getposts?userId=${currentUser.id}&startIndex=${startIndex}`)
    
    if (!res.ok) {
      console.error('Show more API response not ok:', res.status, res.statusText);
@@ -108,7 +107,7 @@ const handleShowMore = async()=>{
 const handleDelete= async ()=>{
   setShowModal(false)
  try {
-  const res = await fetch(`/api/post/deletepost/${postIdToDelete}/${currentUser._id}`, {
+  const res = await fetch(`/api/post/deletepost/${postIdToDelete}/${currentUser.id}`, {
     method:"DELETE",
      headers:{
       'Content-Type':'application/json'
@@ -137,7 +136,7 @@ if(!res.ok){
      currentUser.isAdmin && userPosts.length > 0 ? (
      <>
     <Table className='shadow-md' hoverable>
-      <TableHead>
+      <TableHead className='flex'>
         <TableHeadCell>Date Updated</TableHeadCell>
         <TableHeadCell>Post image</TableHeadCell>
         <TableHeadCell>Post title</TableHeadCell>
@@ -147,12 +146,12 @@ if(!res.ok){
       </TableHead>
       <TableBody className='divide-y'>
         {userPosts.map((post) => (
-          <TableRow key={post._id} className='bg-white dark:border-gray-700 dark:bg-gray-800'>
-            <TableCell>{new Date(post.updatedAt).toLocaleDateString()}</TableCell>
+          <TableRow key={post.id} className='bg-white dark:border-gray-700 dark:bg-gray-800'>
+            <TableCell>{new Date(post.updated_at).toLocaleDateString()}</TableCell>
             <TableCell>
               <Link to={`/post/${post.slug}`}>
                 <img
-                  src={post.image}
+                  src={`uploads/${post.image}`}
                   alt={post.title}
                   className='w-20 h-10 object-cover bg-gray-500'
                 />
@@ -169,7 +168,7 @@ if(!res.ok){
               onClick={ ()=>{
           
           setShowModal(true)
-          setPostIdToDelete(post._id)
+          setPostIdToDelete(post.id)
           
           }}
               className='font-medium text-red-500 hover:underline cursor-pointer'>
@@ -177,7 +176,7 @@ if(!res.ok){
               </span>
             </TableCell>
             <TableCell>
-              <Link className='text-teal-500 font-medium hover:underline' to={`/update-post/${post._id}`}>
+              <Link className='text-teal-500 font-medium hover:underline' to={`/update-post/${post.id}`}>
                 <span>Edit</span>
               </Link>
             </TableCell>

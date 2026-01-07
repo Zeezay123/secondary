@@ -12,7 +12,7 @@ export const exportPaymentExcel = async(req,res,next)=>{
     try {
         
      const [rows] = await new Promise((resolve, reject)=>{
-        const query = `SELECT * FROM Payments` 
+        const query = `SELECT * FROM formpayment` 
         db.query(query,(err,data)=>{
             if(err) return reject(err)
 
@@ -28,7 +28,7 @@ export const exportPaymentExcel = async(req,res,next)=>{
      }
 
     const workbook = new ExcelJS.Workbook()
-    const worksheet =  workbook.addWorksheet('Payments')
+    const worksheet =  workbook.addWorksheet('Form Payments')
 
        const __filename = fileURLToPath(import.meta.url);
     const __dirname = path.dirname(__filename);
@@ -58,7 +58,7 @@ export const exportPaymentExcel = async(req,res,next)=>{
 
 
        worksheet.mergeCells('C10:F11');
-    worksheet.getCell('C10').value = 'Payments Report';
+    worksheet.getCell('C10').value = 'Form Payments Report';
     worksheet.getCell('C10').font = { size: 18, bold: true };
     worksheet.getCell('C10').alignment = {
       vertical: 'middle',
@@ -140,7 +140,7 @@ export const downloadpdf = async (req,res,next)=>{
 
  try {
     const rows = await new Promise((resolve, reject) => {
-      const q = 'SELECT * FROM Payments';
+      const q = 'SELECT * FROM formpayment';
       db.query(q, (err, data) => {
         if (err) return reject(err);
         resolve(data);
@@ -181,7 +181,7 @@ doc.pipe(res);
     doc.moveDown(1);
 
     // Title
-    doc.fontSize(18).text('Payments Report', { align: 'center' });
+    doc.fontSize(18).text('Form Payments Report', { align: 'center' });
     doc.moveDown(1);
 
     // Table header

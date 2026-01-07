@@ -1,4 +1,5 @@
 import React from 'react'
+import PortalCTA from '../components/PortalCTA'
 
 const Junior = () => {
 
@@ -7,7 +8,10 @@ const card=[
 ]
 
   return (
-    <section>Junior</section>
+    <section>
+      Junior
+      <PortalCTA />
+    </section>
   )
 }
 

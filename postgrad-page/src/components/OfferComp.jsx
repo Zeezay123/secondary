@@ -36,7 +36,7 @@ const [isHoverd, SetIsHovered] = useState(false)
         content:`We create in our students a culture of achievement focusing on core skills, learning culture, 
         attainment scores, and environmental safety. `,
         image: cultural,
-        link:'/quiz'
+        link:'/culture/'
         
     },
     

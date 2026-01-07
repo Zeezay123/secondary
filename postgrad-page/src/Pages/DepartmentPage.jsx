@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useState } from 'react'
+import PortalCTA from '../components/PortalCTA'
 import { Spinner } from 'flowbite-react';
 import { Button, Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow, Modal,ModalBody,ModalHeader, ModalFooter } from 'flowbite-react';
 
@@ -160,6 +161,7 @@ if (loading) {
           <Button onClick={() => setOpenModal(false)}>Close</Button>
         </ModalFooter>
       </Modal>
+      <PortalCTA />
     </main>
   );
 }

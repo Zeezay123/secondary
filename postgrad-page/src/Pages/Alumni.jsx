@@ -1,78 +1,75 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import SecondHero from '../components/SecondHero'
 import Divider from '../components/Divider'
+import PortalCTA from '../components/PortalCTA'
 import excur from '../../src/assets/images/excursion.jpg'
 
 
 const Alumni = () => {
- const travels = [
-    {
-        image:excur,
-        title:'JSS 1 2024 Excursion',
-        sub:'River Niger',
-        content:`It is a long established fact that a reader will be distracted by the readable content of a page when looking at 
-        its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using
-         'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use 
-        Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy.`
-    },
+  const [alumni, setAlumni] = useState([])
+  const [loading, setLoading] = useState(true)
 
-     {
-        image:excur,
-        title:'JSS 1 2024 Excursion',
-        sub:'River Niger',
-        content:`It is a long established fact that a reader will be distracted by the readable content of a page when looking at 
-        its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using
-         'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use 
-        Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy.`
-    } ,
-    {
-        image:excur,
-        title:'JSS 1 2024 Excursion',
-        sub:'River Niger',
-        content:`It is a long established fact that a reader will be distracted by the readable content of a page when looking at 
-        its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using
-         'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use 
-        Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy.`
-    },
-     {
-        image:excur,
-        title:'JSS 1 2024 Excursion',
-        sub:'River Niger',
-        content:`It is a long established fact that a reader will be distracted by the readable content of a page when looking at 
-        its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using
-         'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use 
-        Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy.`
+  useEffect(() => {
+    const fetchAlumni = async () => {
+      try {
+        const res = await fetch('/api/alumni?limit=100')
+        const result = await res.json()
+        if (res.ok) {
+          setAlumni(result.data)
+        } else {
+          console.log('Cannot get alumni data')
+        }
+      } catch (error) {
+        console.log(error.message)
+      } finally {
+        setLoading(false)
+      }
     }
- ]
+
+    fetchAlumni()
+  }, [])
 
   return (
     <section className='grid grid-rows-1 px-auto'>
         
-        <SecondHero title='Our Field Trips'/>
+        <SecondHero title='Our Distinguished Alumni'/>
 
         <Divider/>
-         <div className='grid grid-rows-1 px-auto gap-10 '>
-
-            {travels.map((data, index)=>(
-                <div key={index} className='grid grid-cols-2 px-30 my-5 relative ' > 
-                 <div className='w-[500px] h-96 object-cover
-              
-                
-                 '> <img className='w-full h-full rounded' src={data.image} alt="" /> </div>
+        
+        {loading ? (
+          <div className='text-center mt-10 py-20'>
+            <p className='font-[inter] text-lg text-gray-600'>Loading alumni...</p>
+          </div>
+        ) : alumni.length === 0 ? (
+          <div className='text-center mt-10 py-20'>
+            <p className='font-[inter] text-lg text-gray-600'>No alumni found</p>
+          </div>
+        ) : (
+          <div className='grid grid-rows-1 px-auto gap-10 '>
+            {alumni.map((alumnus) => (
+              <div key={alumnus.id} className='grid grid-cols-2 px-30 my-5 relative ' > 
+                <div className='w-[500px] h-96 object-cover'>
+                  <img 
+                    className='w-full h-full rounded object-cover' 
+                    src={alumnus.image ? `/uploads/${alumnus.image}` : excur} 
+                    alt={alumnus.name} 
+                  />
+                </div>
                  
-                 <div className='flex flex-col justify-between border-t border-blue-700 border-b-6 py-5'> 
-                    <div><h1 className='text-lg '>{data.title} </h1></div>
+                <div className='flex flex-col justify-between border-t border-blue-700 border-b-6 py-5'> 
+                  <div><h1 className='text-lg '>{alumnus.role}</h1></div>
 
-                    <div className='flex flex-col gap-5'>
-                        <h2 className='text-4xl font-bold'>{data.sub}</h2>
-                        <p className='text-justify text-sm'>{data.content}</p>
-                    </div>
-                 </div>
-                 
+                  <div className='flex flex-col gap-5'>
+                    <h2 className='text-4xl font-bold'>{alumnus.name}</h2>
+                    <p className='text-justify text-sm' dangerouslySetInnerHTML={{__html: alumnus.description || 'No description available'}}></p>
                   </div>
+                </div>
+              </div>
             ))}
+          </div>
+        )}
 
-         </div>
+        <PortalCTA />
 
         </section>
   )

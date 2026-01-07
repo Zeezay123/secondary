@@ -1,6 +1,8 @@
 import React from 'react'
 import image from '../assets/school2.jpg'
 import { FaRightFromBracket } from 'react-icons/fa6'
+import { Link } from 'react-router-dom'
+
 
 
 const PortalComp = () => {
@@ -90,7 +92,8 @@ const PortalComp = () => {
  
  <h1 className='mt-3 font-[inter] font-semibold text-lg'> {data.title}</h1>
  <p className='font-[inter] text-sm line-clamp-2 wrap-break-word'> {data.content}</p>
- <div className='flex items-center gap-2 font-bold font-[inter] text-black text-xs'> Read More <FaRightFromBracket size={10}/> </div>
+ <div className='flex items-center gap-2 font-bold font-[inter] text-black text-xs'> 
+ <Link to={`https://online.fliphtml5.com/cjnla/hjkg/#p=4`}>  Read More </Link><FaRightFromBracket size={10}/> </div>
  </div>
 ))}
 

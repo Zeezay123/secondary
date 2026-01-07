@@ -42,7 +42,7 @@ import jwt from 'jsonwebtoken';
 
 
 export const signup = async (req, res, next)=>{
-     const selectQuery = "SELECT * FROM users WHERE email = ? OR username = ?"
+     const selectQuery = "SELECT * FROM website_users WHERE email = ? OR username = ?"
 
       const {username, email, password} = req.body
 
@@ -65,7 +65,7 @@ export const signup = async (req, res, next)=>{
   const hashedPassword = bcryptjs.hashSync(password, 10)
         
    try {
-        const insertQuery = 'INSERT INTO users(`username`,`email`,`password`) VALUES (?)'
+        const insertQuery = 'INSERT INTO website_users(`username`,`email`,`password`) VALUES (?)'
         const values = [username,email, hashedPassword]
 
         db.query(insertQuery,[values], (err, data)=>{
@@ -132,7 +132,7 @@ export const signin = (req, res, next)=>{
      }
 
 
-      const selectQuery = "Select * FROM users WHERE username = ?";
+      const selectQuery = "Select * FROM website_users WHERE username = ?";
  
      db.query(selectQuery,[username], (err,data)=>{
             if(err) return next(err)
@@ -232,7 +232,7 @@ export const google = (req, res, next) =>{
    
     const {name, email, googlePhotoURL} = req.body
     
-    const selectQuery = "SELECT * FROM users WHERE  email = ?"
+    const selectQuery = "SELECT * FROM website_users WHERE  email = ?"
 
      db.query(selectQuery, [email], (err, data)=>{
        
@@ -266,7 +266,7 @@ export const google = (req, res, next) =>{
 
        
   try    {
-        const insertQuery = "INSERT INTO users(`username`, `email`, `password`, `profilePic`) VALUES(?)"
+        const insertQuery = "INSERT INTO website_users(`username`, `email`, `password`, `profilePic`) VALUES(?)"
         const values = [name, email, hashedPassword, googlePhotoURL]
 
         db.query(insertQuery, [values], (err,data)=>{

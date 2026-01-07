@@ -4,34 +4,35 @@ import imagetwo from '../assets/images/nbunetvc.png'
 import { Card } from "flowbite-react";
 import CallToAction from "../components/CallToAction";
 import SecondHero from '../components/SecondHero.jsx'
+import PortalCTA from '../components/PortalCTA'
 
 const AboutUs = () => {
   const [data, setData] = useState(null);
 
-// useEffect(() => {
+useEffect(() => {
   
-// const fetchdata = async ()=>{
-//   try {
+const fetchdata = async ()=>{
+  try {
      
-//      const res = await fetch('/api/settings/about')
-//      const data = await res.json()
-//      if(res.ok){
-//       setData(data)
-//       return
-//      }
+     const res = await fetch('/api/settings/about')
+     const data = await res.json()
+     if(res.ok){
+      setData(data)
+      return
+     }
 
-//      if(!res.ok){
-//       console.log('cant get response')
-//      }
+     if(!res.ok){
+      console.log('cant get response')
+     }
 
-//   } catch (error) {
-//     console.log(error.message)
-//   }
-// }
+  } catch (error) {
+    console.log(error.message)
+  }
+}
 
-// fetchdata()
+fetchdata()
      
-// }, [])
+}, [])
 
 
 const title = data?.title || ''
@@ -45,6 +46,17 @@ return(
 <SecondHero/>
   
 <div className="space-y-16 px-4 md:px-20 py-10">
+
+  {/* Introduction Section */}
+  {(data?.title || data?.subtitle || data?.intro) && (
+    <section className="border-t border-blue-950 pt-6">
+      <h1 className="font-[inter] font-bold text-2xl sm:text-3xl md:text-4xl text-blue-950">
+        {data?.title || 'About Us'}
+      </h1>
+      {data?.subtitle && <h2 className="font-normal text-xl mt-4 text-blue-900">{data.subtitle}</h2>}
+      {data?.intro && <div className="text-blue-900 mt-6 text-base sm:text-lg md:text-2xl leading-relaxed text-justify" dangerouslySetInnerHTML={{__html: data.intro}}></div>}
+    </section>
+  )}
 
   {/* Values */}
   <section className="border-t border-blue-950 pt-6">
@@ -111,68 +123,41 @@ return(
     </p>
   </section>
 
+  {/* Philosophy */}
+  {data?.philosophy && (
+    <section className="border-t-4 border-blue-950 pt-6">
+      <h1 className="font-[inter] font-bold text-2xl sm:text-3xl md:text-4xl text-blue-950">
+        Philosophy
+      </h1>
+      <div className="text-blue-900 mt-6 text-base sm:text-lg md:text-2xl leading-relaxed text-justify max-w-4xl mx-auto" dangerouslySetInnerHTML={{__html: data.philosophy}}></div>
+    </section>
+  )}
+
+  {/* VC Message */}
+  {data?.vcMessage && (
+    <section className="border-t border-blue-950 pt-6">
+      <h1 className="font-[inter] font-bold text-2xl sm:text-3xl md:text-4xl text-blue-950 text-center">
+        Message from the Vice-Chancellor
+      </h1>
+      <div className="max-w-4xl mx-auto text-blue-900 mt-6 text-base sm:text-lg md:text-2xl leading-relaxed text-justify" dangerouslySetInnerHTML={{__html: data.vcMessage}}></div>
+      {data?.vcimage && <p className="mt-6 font-semibold text-center text-blue-950">{data.vcimage}</p>}
+    </section>
+  )}
+
+  {/* Director Message */}
+  {data?.directorMessage && (
+    <section className="border-t border-blue-950 pt-6">
+      <h1 className="font-[inter] font-bold text-2xl sm:text-3xl md:text-4xl text-blue-950 text-center">
+        Message from the Director
+      </h1>
+      <div className="max-w-4xl mx-auto text-blue-900 mt-6 text-base sm:text-lg md:text-2xl leading-relaxed text-justify" dangerouslySetInnerHTML={{__html: data.directorMessage}}></div>
+      {data?.directorimage && <p className="mt-6 font-semibold text-center text-blue-950">{data.directorimage}</p>}
+    </section>
+  )}
+
 </div>
 
-
-  {/* <div className="bg-gray-50 text-gray-800 mt-20">
-
-      <section className="py-16 max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
-        <img
-          src={`/uploads/${data?.vcimage}`}
-          alt="Vice Chancellor"
-          className="rounded-2xl shadow-md w-full object-cover"
-        />
-        <div>
-          <h2 className="text-2xl font-bold mb-4">Message from the Vice-Chancellor</h2>
-          <p className="text-gray-700 leading-relaxed italic" dangerouslySetInnerHTML={{__html: data?.vcMessage || 'loading'}}></p>
-          <p className="mt-4 font-semibold">— Vice-Chancellor, DELSU</p>
-        </div>
-      </section>
-      <section className="py-16 bg-white max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
-        <div>
-          <h2 className="text-2xl font-bold mb-4">Message from the Director</h2>
-          <p className="text-gray-700 leading-relaxed italic" dangerouslySetInnerHTML={{__html: data?.directorMessage || 'loading'}}></p>
-          <p className="mt-4 font-semibold">— Director, Postgraduate School</p>
-        </div>
-        <img
-          src={`/uploads/${data?.directorimage}`}
-          alt="Director"
-          className="rounded-2xl shadow-md w-full object-cover"
-        />
-      </section>
-
-      <section className="py-16 bg-gray-100">
-        <div className="max-w-6xl mx-auto px-6 text-center">
-          <h2 className="text-3xl font-bold mb-12">Our Core Values</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-xl shadow p-6">
-              <h3 className="text-xl font-bold mb-3">Mission</h3>
-              <p dangerouslySetInnerHTML={{__html: data?.mission || 'loading'}}></p>
-            </div>
-            <div className="bg-white rounded-xl shadow p-6">
-              <h3 className="text-xl font-bold mb-3">Vision</h3>
-              <p dangerouslySetInnerHTML={{__html: data?.mission || 'loading'}} ></p>
-            </div>
-            <div className="bg-white rounded-xl shadow p-6">
-              <h3 className="text-xl font-bold mb-3">Philosophy</h3>
-              <p dangerouslySetInnerHTML={{__html: data?.philosophy || 'loading'}}></p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-
-      <section className="py-16 max-w-6xl mx-auto px-6">
-        <h2 className="text-3xl font-bold text-center mb-12">Why Choose DELSU?</h2>
-        <ul className="grid md:grid-cols-2 gap-6 text-gray-700 list-disc pl-6">
-          <li>Wide range of postgraduate programmes across faculties.</li>
-          <li>Experienced lecturers and supervisors with research expertise.</li>
-          <li>Conducive learning environment with modern facilities.</li>
-          <li>Opportunities for national and international collaborations.</li>
-          <li>A community that nurtures leaders, innovators, and problem-solvers.</li>
-        </ul>
-      </section>
-    </div> */}
+  <PortalCTA />
   <CallToAction/> 
 
   </section>

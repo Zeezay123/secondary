@@ -1,33 +1,52 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { FaChevronUp } from 'react-icons/fa'
 
 const Accordion = () => {
   const [togg, setTogg] = useState(null)
+  const [data, setData] = useState([])
+  const [loading, setLoading] = useState(true)
   const AccordRef = useRef({})
+
+  useEffect(() => {
+    const fetchFaqs = async () => {
+      try {
+        const res = await fetch('/api/faq/getfaq?limit=100')
+        const result = await res.json()
+        if (res.ok) {
+          setData(result.data.map(faq => ({
+            title: faq.question,
+            content: faq.answer
+          })))
+        }
+      } catch (error) {
+        console.error('Error fetching FAQs:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchFaqs()
+  }, [])
 
   const handleTogg = (index) => {
     setTogg((p) => (index === p ? null : index))
   }
 
-  const data = [
-    {
-      title: 'What documents are needed for admission?',
-      content: `Honoring the achievements, resilience,
-      and unity of the DELSU Secondary School Class of 2024 — a remarkable chapter in our school’s story.`,
-    },
-    {
-      title: 'When does the school session start?',
-      content: `Our academic year runs from September through July, divided into three terms.`,
-    },
-    {
-      title: 'Is there a boarding facility available?',
-      content: `Yes, our school offers a safe and well-supervised boarding system with modern amenities.`,
-    },
-    {
-      title: 'How do I apply for admission?',
-      content: `Applications can be made online through the school portal or directly at the school’s administrative office.`,
-    },
-  ]
+  if (loading) {
+    return (
+      <section className="w-full max-w-3xl mx-auto px-4 md:px-0 py-10">
+        <p className="text-center">Loading FAQs...</p>
+      </section>
+    )
+  }
+
+  if (data.length === 0) {
+    return (
+      <section className="w-full max-w-3xl mx-auto px-4 md:px-0 py-10">
+        <p className="text-center text-gray-500">No FAQs available</p>
+      </section>
+    )
+  }
 
   return (
     <section className="w-full max-w-3xl mx-auto px-4 md:px-0 py-10 flex flex-col gap-5">

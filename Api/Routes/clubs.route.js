@@ -25,7 +25,7 @@ const router = express.Router();
 
 // Club Main Routes
 router.post('/clubmain/create', verifyToken,createClubMain);
-router.put('/clubmain/update/:id', updateClubMain);
+router.put('/clubmain/update', updateClubMain);
 router.get('/clubmain', getClubMain);
 router.get('/clubmain/:id', getClubMainById);
 router.delete('/clubmain/delete/:id', deleteClubMain);

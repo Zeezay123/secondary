@@ -8,12 +8,14 @@ import { signOutSuccess } from '../Redux/user/slice'
 import { useDispatch, useSelector } from 'react-redux'
 
 
+
 const DashSidebar = () => {
   const {currentUser} = useSelector(state=>state.user)
   const location = useLocation();
-  const [clubs, setClubs] = useState(['one','two','three'])
+  const [clubs, setClubs] = useState([])
  const [tab, setUseTab] = useState('')
  const dispatch = useDispatch()
+ const [errMsg, setErrMsg] = useState('')
 
  useEffect(()=>{
   // Get the tab from the URL query parameters
@@ -23,9 +25,33 @@ const DashSidebar = () => {
  
 if(tabFromUrl){
   setUseTab(tabFromUrl)
+  fetchclubs()
 }
  
  }, [location.search])
+
+
+ const fetchclubs = async()=>{
+try{
+
+  const response = await fetch(`api/clubs/clubsub`)
+  if(!response.ok){
+    setErrMsg(response.statusText)
+    return
+  }
+  
+  const data = await response.json()
+  setClubs(data)
+
+
+
+}catch(error){
+
+  setErrMsg(error.message || 'Error updating')
+
+}
+
+ }
 
 
 
@@ -60,10 +86,11 @@ if(tabFromUrl){
      </SidebarItem></Link>
 
 {<SidebarCollapse label='Clubs' icon={HiDocumentReport}>
-   <Link to={`/dashboard?tab=addclub`}>  <SidebarItem>Add Clubs</SidebarItem></Link>
-   {clubs.map((club, index)=> (
+   <Link to={`/dashboard?tab=addclub`}>  <SidebarItem>Add Club Info</SidebarItem></Link>
+   <Link to={`/dashboard?tab=addclubs`}>  <SidebarItem>Add Clubs </SidebarItem></Link>
+   {clubs?.map((club, index)=> (
 
-      <Link key={index} to={`/dashboard?tab=${club}`}> <SidebarItem active={tab===club} as='div'>{club} </SidebarItem></Link>
+      <Link key={index} to={`/dashboard?tab=${club.id}`}> <SidebarItem active={tab===club.title} as='div'>{club.title} </SidebarItem></Link>
      ))}  </SidebarCollapse> }
 
      {
@@ -132,20 +159,6 @@ if(tabFromUrl){
       )
      }
 
- {
-      currentUser.isAdmin && (
- <Link to={'/dashboard?tab=users'}> 
-
-   <SidebarItem
-   active={tab === 'users'}
-   icon={HiOutlineUserGroup} as='div'>
-    Users
-   </SidebarItem>
-   
-   </Link>
-      )
-     }
-
 
 
 
@@ -177,14 +190,14 @@ if(tabFromUrl){
          Application Info
         </SidebarItem>
        </Link>
-       <Link to={'/dashboard?tab=application'}>
+       {/* <Link to={'/dashboard?tab=form'}>
         <SidebarItem
-        active={tab=== 'application'} 
+        active={tab === 'form'} 
         icon={HiOutlineDocumentRemove}
         as='div'>
            Form
         </SidebarItem>
-       </Link>
+       </Link> */}
 
       <Link to={'/dashboard?tab=payment'}>
       <SidebarItem as='div' 
@@ -206,31 +219,31 @@ if(tabFromUrl){
       currentUser.isAdmin && (
 <SidebarCollapse icon={HiDocumentText} label='Directory'> 
 
-<Link to={'/dashboard?tab=staff'}> 
+<Link to={'/dashboard?tab=principal'}> 
   <SidebarItem
-  active={tab === 'staff'}
+  active={tab === 'principal'}
   icon={HiDocumentText}
   as='div'
-  > Pricinpal </SidebarItem>
+  > Principal </SidebarItem>
 </Link>
-<Link to={'/dashboard?tab=staff'}> 
+<Link to={'/dashboard?tab=teach'}> 
   <SidebarItem
-  active={tab === 'staff'}
+  active={tab === 'teach'}
   icon={HiDocumentText}
   as='div'
   > Teachers </SidebarItem>
 </Link>
 
-<Link to={'/dashboard?tab=staff'}> 
+<Link to={'/dashboard?tab=prefects'}> 
   <SidebarItem
-  active={tab === 'staff'}
+  active={tab === 'prefects'}
   icon={HiDocumentText}
   as='div'
   > Prefects </SidebarItem>
 </Link>
-<Link to={'/dashboard?tab=staff'}> 
+<Link to={'/dashboard?tab=alumni'}> 
   <SidebarItem
-  active={tab === 'staff'}
+  active={tab === 'alumni'}
   icon={HiUsers}
   as='div'
   > Alumni </SidebarItem>
@@ -244,6 +257,19 @@ if(tabFromUrl){
 
       {
       currentUser.isAdmin && (
+ <Link to={'/dashboard?tab=yearbook'}> 
+
+   <SidebarItem
+   active={tab === 'yearbook'}
+   icon={HiOutlineUserGroup} as='div'>
+    Yearbook
+   </SidebarItem>
+   </Link>
+      )
+     }
+
+      {
+      currentUser.isAdmin && (
  <Link to={'/dashboard?tab=announce'}> 
 
    <SidebarItem
@@ -251,11 +277,25 @@ if(tabFromUrl){
    icon={HiOutlineUserGroup} as='div'>
     Announcement
    </SidebarItem>
-   
+
    </Link>
       )
      }
 
+
+      {
+      currentUser.isAdmin && (
+ <Link to={'/dashboard?tab=contact'}> 
+
+   <SidebarItem
+   active={tab === 'contact'}
+   icon={HiOutlineUserGroup} as='div'>
+    Contact
+   </SidebarItem>
+
+   </Link>
+      )
+     }
 
 
 

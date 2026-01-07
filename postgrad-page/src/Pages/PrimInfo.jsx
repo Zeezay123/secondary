@@ -2,6 +2,7 @@ import React,{useState,useEffect} from 'react'
 import imageOne from '../assets/images/imageone.jpg'
 import { Badge } from 'flowbite-react'
 import CardCaro from '../components/CardCaro'
+import PortalCTA from '../components/PortalCTA'
 
 const PrimInfo = () => {
 
@@ -110,7 +111,8 @@ with the knowledge and values to make meaningful contributions to society.`
 
         
         </div>
-         <CardCaro />       
+         <CardCaro />  
+          
     </section>
   )
 }

@@ -1,72 +1,96 @@
-import Announce from "../models/announce.model.js";
 import { errorHandler } from "../utils/error.js";
-
+import {db} from '../db.js'
 
 
 
 export const create = async(req,res,next)=>{
  
-if(!req.user.isAdmin){
-return next(errorHandler(403, 'you are not allowed to create a post'))
+const {title, content, image} =req.body
 
-}
+const query = `INSERT INTO announce (title, content, image) VALUES (?,?,?)`
 
- if (!req.body.title || !req.body.content) {
-        return next(errorHandler(400, 'Please provide all required fields'))
-    }
- 
-    const newAnnounce = new Announce({
-        ...req.body,
-    })
+db.query(query,[title,content,image], (err,data)=>{
+  if(err) return next(err)
 
-
-try {
-   
-const savedAnnounce = await newAnnounce.save()
-res.status(201).json(savedAnnounce)
-
-
-} catch (error) {
-    next(error)
-}
+   return res.status(200).json('Annoucement Created')
+})
 
 }
 
 
 export const getAnnounce= async (req,res,next)=>{
-try {
-    
-    const announce = await Announce.findOne()
-    
-        if (!announce) {
-      return res.status(404).json({ message: "Settings not found" });
-    }
+    const limit =  parseInt(req.query.limit) || 10 
+    const startIndex = parseInt(req.query.startIndex) || 0
 
-    res.status(200).json(announce)
+    
+    const countQuery = `SELECT COUNT(*) as total FROM announce WHERE deleted = 0`
 
-} catch (error) {
-    next(error)
+
+  db.query(countQuery,(err,data)=>{
+    if(err) return next(err)
+      const total = data[0].total
+      const query = `SELECT * FROM announce WHERE deleted = 0 ORDER BY id DESC LIMIT ? OFFSET ?`
+      
+    
+      db.query(query,[limit, startIndex],(err,data)=>{
+        if(err) return next(err)
+    
+          return res.status(200).json({data,total})
+      })
+  })
+    
 }
+
+export const getAnnounceById= async (req,res,next)=>{
+const annId = req.params.id
+  const query = `SELECT * FROM announce WHERE id =? AND deleted = 0`
+
+  db.query(query,[annId], (err,data)=>{
+    if(err) return next(err)
+
+      return res.status(200).json(data[0])
+  })
     
 }
 
 export const updateAnnounce = async (req, res, next) => {
-  if (!req.user.isAdmin) {
-    return next(errorHandler(403, "You are not allowed to update settings"));
+  const annId = req.params.id
+ const {title, content, image} =req.body
+  const query =`UPDATE announce SET title=?, content = ?, image=? WHERE id=?`
+
+db.query(query,[title,content,image, annId], (err,data)=>{
+  if(err) return next(err)
+
+   return res.status(200).json('Annoucement Updated')
+})
+
   }
 
-  try {
-  
-    const updateData = req.body
+export const deleteAnnounce = async (req,res,next)=>{
+      
+      const annId = req.params.id;
+      
+      const queryOne = 'SELECT * FROM announce WHERE id=?'
+      
+      db.query(queryOne, [annId],(err,data)=>{
+        if(err) return next(err)
 
-    const updateAnnounce = await Announce.findOneAndUpdate(
-      {},
-      { $set: updateData },
-      { new: true, upsert: true }
-    );
+          if(!data.length)
+           {
+            return res.status(400).json("Announcement not found")
+           }
+         const newData = data[0]
+          const newTitle = `${newData.title} Deleted`
 
-    res.status(200).json(updateAnnounce);
-  } catch (error) {
-    next(error);
-  }
-};
+  const query = `UPDATE announce SET title=?, deleted = 1 WHERE id = ?`;
+
+      db.query(query, [newTitle, annId], (err, data)=>{  
+        if(err) return next(err)
+
+        return  res.status(200).json('Yearbook deleted successfully')
+      })
+        })
+      
+     
+
+    }

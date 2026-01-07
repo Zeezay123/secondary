@@ -6,6 +6,7 @@ import Faculty from '../components/Faculty'
 import News from '../components/News'
 import HowToApply from '../components/HowToApply'
 import CallToAction from '../components/CallToAction'
+import PortalCTA from '../components/PortalCTA'
 
 
 const Home = () => {
@@ -17,6 +18,7 @@ const Home = () => {
       <Vcaddress />
       <HowToApply/>
       <News />
+      <PortalCTA/>
       <CallToAction/>
     </div>
   )

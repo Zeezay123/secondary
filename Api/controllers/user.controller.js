@@ -182,7 +182,7 @@ export const updateUser = (req, res, next) => {
   const { username, email, profilePhoto, password } = req.body;
 
   const query = `
-    UPDATE users
+    UPDATE website_users
     SET username = ?, email = ?, profilePic = ?, password = ?
     WHERE id = ?
   `;
@@ -202,7 +202,7 @@ export const deleteUser = (req, res, next) => {
     return next(errorHandler(403, "You are not allowed to delete the user"));
   }
 
-  const query = "DELETE FROM users WHERE id = ?";
+  const query = "DELETE FROM website_users WHERE id = ?";
   db.query(query, [req.params.userId], (err, result) => {
     if (err) return next(err);
     if (result.affectedRows === 0) {
@@ -233,7 +233,7 @@ export const getUsers = (req, res, next) => {
 
   const query = `
     SELECT id, username, email, profilePic, isAdmin, createdAt
-    FROM users
+    FROM website_users
     ORDER BY createdAt ${sortDirection}
     LIMIT ?, ?
   `;
@@ -242,13 +242,13 @@ export const getUsers = (req, res, next) => {
     if (err) return next(err);
 
     // Get total users
-    db.query("SELECT COUNT(*) AS totalUsers FROM users", (err, totalData) => {
+    db.query("SELECT COUNT(*) AS totalUsers FROM website_users", (err, totalData) => {
       if (err) return next(err);
       const totalUsers = totalData[0].totalUsers;
 
       // Users created in the last month
       db.query(
-        "SELECT COUNT(*) AS lastMonthUsers FROM users WHERE createdAt >= DATE_SUB(NOW(), INTERVAL 1 MONTH)",
+        "SELECT COUNT(*) AS lastMonthUsers FROM website_users WHERE createdAt >= DATE_SUB(NOW(), INTERVAL 1 MONTH)",
         (err, lastMonthData) => {
           if (err) return next(err);
           const lastMonthUsers = lastMonthData[0].lastMonthUsers;

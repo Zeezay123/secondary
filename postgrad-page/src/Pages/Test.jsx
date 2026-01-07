@@ -11,6 +11,7 @@ import Secondary from '../components/Secondary.jsx';
 import Teachers from '../components/Teachers.jsx';
 import Accordion from '../components/Accordion.jsx';
 import Faq from '../components/Faq.jsx';
+import Announcement from '../components/Announcement.jsx';
 
 
 
@@ -30,10 +31,10 @@ const Test = () => {
 <PrimInfo/>
    <OfferComp/>
    <PortalComp/>
-   <Teachers/>
+
      <Faq/>
      {/* <Accordion/> */}
-
+    <Announcement/>
    <News/>
   </main>
   

@@ -23,7 +23,7 @@ export const updateClubMain = (req, res, next) => {
     const {id} = req.params
 
     const query = `UPDATE club_main SET title = ?, subtitle = ?, intro = ?,
-     imageone = ?, imagetwo = ? WHERE id = ?`
+     imageone = ?, imagetwo = ?`
 
     db.query(query, [title, subtitle, intro, imageOne, imageTwo, id], (err, data) => {
         if(err) return next(err)
@@ -38,7 +38,7 @@ export const getClubMain = (req, res, next) => {
 
     db.query(query, (err, data) => {
         if(err) return next(err)
-        return res.status(200).json(data)
+        return res.status(200).json(data[0])
     })
 }
 

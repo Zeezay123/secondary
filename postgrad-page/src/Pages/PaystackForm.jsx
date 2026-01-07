@@ -55,9 +55,35 @@ const PaystackForm = ({setFormButt,setPayButt, setStepButt}) => {
 
 
   return (
-    <section>
-          <div className='md:min-w-3xl flex flex-col gap-2 md:h-[50vh]'>
-           <div className=' flex flex-col gap-3'> <Label htmlFor='email'> Enter your Email</Label>
+    <section className='w-full flex-col justify-center items-center '>
+          <div className='grid mx-auto py-12 md:px-auto max-w-7xl '>
+          
+          
+          <div className='mb-7'>
+        <h1 className='text-3xl font-bold text-center mb-2'>Enter Your Details</h1>
+        <h4 className='text-center text-sm text-gray-500'> Detaild entered will be used to verify your payment. Please ensure accuracy as we are not liable to mistakes made in the entry </h4>
+      </div> 
+        
+          <div className='flex flex-col gap-4  bg-slate-100 md:rounded-lg px-10 py-10 md:w-4xl md:mx-auto mt-5'>
+         
+         
+          <div className=''> 
+          <div className='flex flex-col gap-3 '> <Label htmlFor='name'> Enter your Name</Label>
+            <TextInput type='text'
+            className='bg-slate-50'
+            required
+            id='name'
+            value={name}
+            onChange={(e)=>setName(e.target.value)} />
+          
+            </div> 
+
+
+            </div>
+
+
+            <div className='md:grid md:grid-cols-1 md:gap-6 '> 
+             <div className=' flex flex-col gap-3'> <Label htmlFor='email'> Enter your Email</Label>
             <TextInput type='email'
             required
             id='email'
@@ -65,24 +91,12 @@ const PaystackForm = ({setFormButt,setPayButt, setStepButt}) => {
             onChange={(e)=>setemail(e.target.value)} />
             </div>
 
-             <div className='flex flex-col gap-3'> <Label htmlFor='name'> Enter your Name</Label>
-            <TextInput type='text'
-            required
-            id='name'
-            value={name}
-            onChange={(e)=>setName(e.target.value)} />
-            </div>
+            
 
-            <div className=' flex flex-col gap-3'> <Label htmlFor='child'> Enter Number Of Children</Label>
-            <TextInput type='number'
-            required
-            id='child'
-            value={childNum}
-            onChange={(e)=>setChildNum(e.target.value)} />
-            </div>
-
-            <div className='flex text-white font-[inter] rounded font-bold items-center justify-center bg-blue-800 p-2  mt-5'><PaystackButton  {...componentProps} />  </div> 
+</div>
+            <div className={`flex text-white font-[inter] rounded font-bold items-center justify-center ${ !name || !email || !childNum ? 'bg-gray-500' : `bg-blue-800`} p-2  mt-5`}><PaystackButton  {...componentProps} />  </div> 
         </div>
+          </div>
     </section>
   )
 }

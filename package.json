@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon Api/index.js",
-    "start": "node Api/index.js"
+    "start": "node Api/index.js",
+    "production": "NODE_ENV=production node Api/index.js"
   },
   "keywords": [],
   "author": "",

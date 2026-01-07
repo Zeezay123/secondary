@@ -1,9 +1,45 @@
-import { Button, Label, Textarea, TextInput } from 'flowbite-react'
+import { Button, Label, Textarea, TextInput, Alert } from 'flowbite-react'
 import React from 'react'
 import { useState } from 'react'
 
 const ContactForm = () => {
- const [formData, getFormData]= useState([])
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' })
+  const [loading, setLoading] = useState(false)
+  const [succMsg, setSuccMsg] = useState('')
+  const [errMsg, setErrMsg] = useState('')
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value })
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+    setSuccMsg('')
+    setErrMsg('')
+
+    try {
+      const res = await fetch('/api/contact/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      })
+
+      const data = await res.json()
+
+      if (res.ok) {
+        setSuccMsg('Message sent successfully! We will get back to you soon.')
+        setFormData({ name: '', email: '', message: '' })
+      } else {
+        setErrMsg(data.message || 'Failed to send message. Please try again.')
+      }
+    } catch (error) {
+      setErrMsg('An error occurred. Please try again later.')
+      console.error('Error submitting form:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
 
 
 
@@ -20,28 +56,41 @@ const ContactForm = () => {
           </p>
         </div>
 
-        <form className="flex flex-col gap-4 mt-4">
+        {succMsg && <Alert color='success'>{succMsg}</Alert>}
+        {errMsg && <Alert color='failure'>{errMsg}</Alert>}
+
+        <form className="flex flex-col gap-4 mt-4" onSubmit={handleSubmit}>
           <TextInput
+            name="name"
             placeholder="Name*"
+            value={formData.name}
+            onChange={handleChange}
             required
             className="w-full"
           />
           <TextInput
+            name="email"
             placeholder="Email*"
             type="email"
+            value={formData.email}
+            onChange={handleChange}
             required
             className="w-full"
           />
           <Textarea
+            name="message"
             placeholder="Message*"
+            value={formData.message}
+            onChange={handleChange}
             required
             className="h-32 md:h-40"
           />
           <Button
             type="submit"
+            disabled={loading}
             className="rounded-full  bg-blue-700 hover:bg-blue-800 transition-colors duration-300 w-full md:w-full self-center md:self-start"
           >
-            Submit Form
+            {loading ? 'Sending...' : 'Submit Form'}
           </Button>
         </form>
       </div>

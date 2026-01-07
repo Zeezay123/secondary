@@ -59,10 +59,7 @@ const menus =[
     child:['Anthem', 'Clubs', 'Quiz', 'Excursion', 'Interhouse','Culture']
   },
 
-   {
-    title:'Portals',
-    child:['Teacher', 'Student']
-  },
+
 
 
 
@@ -108,7 +105,7 @@ const menus =[
    !currentUser ? (
    <nav className='hidden md:flex w-full justify-between items-center  fixed z-50 py-5 md:px-8'>
      
-  {transMode ? <div className=''> </div> :  <Link  className="flex items-center" to="/">
+  {transMode ? <div className=''> </div> :  <Link  className="flex items-center bg-slate-50 px-5 rounded-full py-1" to="/">
             <img src={logo} className="h-10 mr-3" alt="Delsu Logo" />
             <span className={` text-xl font-bold text-black `}>Delta State University</span>
           </Link>}

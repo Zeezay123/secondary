@@ -31,6 +31,7 @@ import Arts from './Pages/Arts'
 import Alumni from './Pages/Alumni'
 import Prefects from './Pages/Prefects'
 import CreateActivity from './Pages/CreateActivity'
+import Teachers from './components/Teachers'
 
 
 
@@ -45,12 +46,12 @@ function App() {
         <Route path='/about' element={<About />} />
         <Route path='/posts' element={<Blog />} />
         <Route path='/principal' element={<Principal/>} />
-        <Route path='/teacher' element={<Teacher/>} />
+        <Route path='/teacher' element={<Teachers/>} />
         {/* <Route path='/programmes' element={<Programmes/>} /> */}
         {/* <Route path='/admision' element={<Admision/>} /> */}
         <Route path='/anthem' element={<Anthem/>} />
         <Route path='/secondary' element={<Secondary/>}/>
-        <Route path='/travel' element={<Excursion/>}/>
+        <Route path='/excursion' element={<Excursion/>}/>
         <Route path='/clubs' element={<Clubs/>}/>
         <Route path='/interhouse' element={<InterhouseSports/>}/>
         <Route path='/quiz' element={<Quiz/>}/>

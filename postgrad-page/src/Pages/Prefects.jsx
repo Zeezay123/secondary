@@ -1,26 +1,37 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import SecondHero from '../components/SecondHero'
 import { TypeAnimation } from 'react-type-animation'
 import imageO from '../assets/images/blackb1.jpg'
 import imageT from '../assets/images/blackb2.jpg'
 import tee1 from '../assets/teacher1.jpg'
-import tee2 from '../assets/tee2.jpg'
-import tee3 from '../assets/t3.jpg'
-import tee4 from '../assets/e5.jpg'
 import Curr from '../components/Curr'
 import CallToAction from '../components/CallToAction'
+import PortalCTA from '../components/PortalCTA'
+import { Link } from 'react-router-dom'
 
 const Prefects = () => {
-  const data = [
-    { image: tee1, title: 'Biology Teacher', name: 'Precious' },
-    { image: tee2, title: 'Chemistry Teacher', name: 'Michael' },
-    { image: tee3, title: 'Physics Teacher', name: 'Joy' },
-    { image: tee4, title: 'Mathematics Teacher', name: 'John' },
-    { image: tee1, title: 'English Teacher', name: 'Sophia' },
-    { image: tee2, title: 'ICT Teacher', name: 'David' },
-    { image: tee3, title: 'Fine Arts Teacher', name: 'Grace' },
-    { image: tee4, title: 'Agricultural Science Teacher', name: 'Tunde' },
-  ]
+  const [prefects, setPrefects] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchPrefects = async () => {
+      try {
+        const res = await fetch('/api/prefects?limit=100')
+        const result = await res.json()
+        if (res.ok) {
+          setPrefects(result.data)
+        } else {
+          console.log('Cannot get prefects data')
+        }
+      } catch (error) {
+        console.log(error.message)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchPrefects()
+  }, [])
 
   return (
     <section className="flex flex-col w-full overflow-hidden">
@@ -42,13 +53,13 @@ const Prefects = () => {
               learning.
             </p>
             <div className="flex justify-center md:justify-start">
-              <button
+              <Link to="/apply"
                 className="mt-6 py-2 px-8 font-[inter] font-bold border-2 border-blue-950
                 rounded-full text-blue-950 transition-all duration-500
                 hover:bg-gradient-to-br hover:from-blue-700 hover:to-amber-900 hover:text-white"
               >
                 Apply Now
-              </button>
+              </Link>
             </div>
           </div>
           <div className="hidden md:block absolute right-0 top-0 w-10 h-80 rounded-bl-full bg-blue-950"></div>
@@ -92,7 +103,7 @@ const Prefects = () => {
       </div>
 
       {/* Curriculum Section */}
-      <div className="mt-16 px-5 md:px-20">
+      {/* <div className="mt-16 px-5 md:px-20">
         <div className="text-center mb-8">
           <h1 className="font-[inter] font-bold text-2xl md:text-4xl text-blue-950">
             Our Curriculum:
@@ -101,42 +112,52 @@ const Prefects = () => {
           </h1>
         </div>
         <Curr />
-      </div>
+      </div> */}
 
       <div className="mt-20 px-5 md:px-20 py-5">
         <div className="text-center mb-8">
           <h1 className="font-[inter] font-bold text-2xl md:text-4xl text-blue-950">
-            Our Wonderful Teachers
+            Our School Prefects
           </h1>
           <p className="font-[inter] text-gray-700 text-sm md:text-base mt-3 max-w-2xl mx-auto">
-            Get to know the passionate and experienced educators who create a nurturing, fun, and
-            inspiring environment for every child at Gigglio!
+            Meet our dedicated student leaders who exemplify excellence and serve as role models for the entire school community.
           </p>
         </div>
 
-        <div className="grid grid-cols-1  sm:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-10 place-items-center">
-          {data.map((item, index) => (
-            <div
-              key={index}
-              className="flex flex-col w-full items-center bg-white shadow-md hover:shadow-lg rounded-2xl p-3 transition"
-            >
-              <div className="w-66 h-66  rounded-2xl overflow-hidden">
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="w-full h-full object-cover rounded-2xl"
-                />
+        {loading ? (
+          <div className='text-center mt-10'>
+            <p className='font-[inter] text-lg text-gray-600'>Loading prefects...</p>
+          </div>
+        ) : prefects.length === 0 ? (
+          <div className='text-center mt-10'>
+            <p className='font-[inter] text-lg text-gray-600'>No prefects found</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-10 place-items-center">
+            {prefects.map((prefect) => (
+              <div
+                key={prefect.id}
+                className="flex flex-col w-full items-center bg-white shadow-md hover:shadow-lg rounded-2xl p-3 transition"
+              >
+                <div className="w-66 h-66 rounded-2xl overflow-hidden">
+                  <img
+                    src={prefect.image ? `/uploads/${prefect.image}` : tee1}
+                    alt={prefect.name}
+                    className="w-full h-full object-cover rounded-2xl"
+                  />
+                </div>
+                <h2 className="font-[inter] font-bold text-lg mt-3 text-blue-950">
+                  {prefect.name}
+                </h2>
+                <p className="font-[inter] text-sm text-gray-700">{prefect.role}</p>
               </div>
-              <h2 className="font-[inter] font-bold text-lg mt-3 text-blue-950">
-                {item.name}
-              </h2>
-              <p className="font-[inter] text-sm text-gray-700">{item.title}</p>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
 
-      <CallToAction/>
+      <PortalCTA/>
+      {/* <CallToAction/> */}
     </section>
   )
 }

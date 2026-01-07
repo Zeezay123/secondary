@@ -9,6 +9,7 @@ import tee3 from '../assets/t3.jpg'
 import tee4 from '../assets/e5.jpg'
 import Curr from '../components/Curr'
 import CallToAction from '../components/CallToAction'
+import PortalCTA from '../components/PortalCTA'
 
 const Teacher = () => {
   const data = [
@@ -136,6 +137,7 @@ const Teacher = () => {
         </div>
       </div>
 
+      <PortalCTA/>
       <CallToAction/>
     </section>
   )

@@ -1,15 +1,24 @@
-import { Button, TextInput, Alert, Tabs, TabItem } from 'flowbite-react';
+import { Alert, FileInput, Label, Modal, ModalBody, ModalHeader,  Textarea, TextInput, Button, Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow, Popover } from 'flowbite-react'
 import React, { useEffect, useState } from 'react';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
-import Student from './Student';
-import Accomodation from './Accomodation';
-import Campus from './Campus';
-import AnnounceComp from './AnnounceComp';
+import axios from 'axios'
+import { CircularProgressbar } from 'react-circular-progressbar'
+import 'react-circular-progressbar/dist/styles.css'
+import { FaCheck } from 'react-icons/fa6';
+import AnnounceTable from './AnnounceTable';
+
 
 const DashAnnounce = () => {
-  const [annData, setAnndata] = useState({ title: '', content: '' });
+  const [annData, setAnndata] = useState({ title: '', content: '', image:'' });
   const [alert, setAlert] = useState({ type: '', message: '' }); // For notifications
+  const [showModal, setShowModal] = React.useState(false)
+     const [succMsg, setSuccMsg] = React.useState('')
+      const [errMsg, setErrMsg] = React.useState('')
+      const [file, setImageFile] = React.useState('')
+      const [preview, setpreview] = React.useState('')
+
+
 
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -30,95 +39,163 @@ const DashAnnounce = () => {
   //   fetchData();
   // }, []);
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
+  const handleCloseModal=()=>{
+        setShowModal(false)
+        setAnndata({title:'', content:'',image:''})
+        setpreview('')
+        setErrMsg('')
+        setSuccMsg('')
+    }
 
-  //   try {
-  //     const res = await fetch('/api/announce/', {
-  //       method: 'PUT',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify(annData),
-  //     });
 
-  //     const data = await res.json();
+ const handleSubmit = async () => {
+        try {
+            // Fetch yearbooks from API here
 
-  //     if (!res.ok) {
-  //       setAlert({ type: 'failure', message: data.message || 'Submission failed' });
-  //       return;
-  //     }
+           const res = await fetch(`/api/announce/createannounce`, {
+            method:'POST',
+            headers:{
+              'Content-Type':'application/json'},
+            credentials:'include',
+            body:JSON.stringify(annData)
+           }) 
+           
+           if(!res.ok) {
+            console.log(res.statusText)
+            return
+           }
 
-  //     setAlert({ type: 'success', message: 'Announcement updated successfully!' });
-  //   } catch (error) {
-  //     setAlert({ type: 'failure', message: error.message });
-  //   }
-  // };
+           console.log(annData)
+            setSuccMsg('Announcement added successfully!')
+            setTimeout(() =>{
+          
+            setShowModal(false)
+            }, 2000)
+           
+
+
+
+        } catch (error) {
+            console.error('Error fetching Announcements:', error);
+        }
+
+      }
+
+
+ const handleChangeImage=(e)=>{
+        const file=e.target.files[0]
+
+      setImageFile(file)
+
+      const preview = URL.createObjectURL(file)
+       setpreview(preview)
+    }
+
+    const uploadImage = async()=>{
+         
+      const formdata = new FormData()
+      formdata.append('file',file)
+
+          try {
+         
+        const res = await axios.post('/api/uploads', formdata, {
+        headers: {  'content-type': 'multipart/form-data'},
+        onUploadProgress:(progressEvent)=>{
+             const percent = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total
+             )
+
+             setUploadProgress(percent)
+        }
+
+        })
+
+        if(!res.ok) {
+          setErrMsg(res.statusText)
+          console.log(res)
+          
+        }
+
+        const data = await res.data
+        setAnndata({...annData, image:data})
+        setSuccMsg('Image uploaded successfully')
+        setErrMsg('')
+
+
+
+      } catch (error) {
+        console.log('Error uploading file:', error)
+      }
+    }
+
+
+
 
   return (
-    // <div className="p-3 max-w-3xl mx-auto min-h-screen">
-    //   <h1 className="text-center text-3xl my-7 font-semibold">Announcement Post</h1>
 
-    //   {alert.message && (
-    //     <Alert
-    //       color={alert.type === 'success' ? 'success' : 'failure'}
-    //       onDismiss={() => setAlert({ type: '', message: '' })}
-    //       className="mb-4"
-    //     >
-    //       {alert.message}
-    //     </Alert>
-    //   )}
 
-    //   <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-    //     <TextInput
-    //       type="text"
-    //       placeholder="Title"
-    //       required
-    //       id="title"
-    //       value={annData.title}
-    //       onChange={(e) => setAnndata({ ...annData, title: e.target.value })}
-    //     />
+<div className='mx-auto max-w-7xl py-15 '>
 
-    //     <ReactQuill
-    //       theme="snow"
-    //       placeholder="Write Announcement"
-    //       className="h-72 mb-5"
-    //       value={annData.content}
-    //       onChange={(value) => setAnndata({ ...annData, content: value })}
-    //     />
+<h1 className='text-2xl  my-5 font-bold text-center'> Announcements Page</h1>
 
-    //     <Button type="submit">Submit</Button>
-    //   </form>
-    // </div>
+<Button onClick={()=>setShowModal(true)}> add announcement</Button>
 
 
 
-<div className='flex flex-col items-center px-5 md:px-20'>
+<AnnounceTable/>
+<Modal show={showModal} onClose={handleCloseModal} className='flex flex-col gap-5 justify-center items-center'> 
+    <ModalHeader className='text-center font-bold '> Enter announcement details</ModalHeader>
+    <ModalBody className='flex flex-col gap-5'>
 
+      {succMsg && <Alert color='success'> {succMsg} </Alert>}
+      {errMsg && <Alert color='red'> {errMsg}</Alert>}
+      <div >
+        <Label htmlFor='title'>Enter Title of Announcement </Label>
+        <TextInput 
+        id='title'
+        placeholder='enter title'
+        value={annData.title}
+        onChange={(e)=> setAnndata({...annData, title:e.target.value})}
+        />
+      </div>
 
-
-    <div className='flex flex-col items-center px-5 md:px-20'>
-     <Tabs variant="underline">
-     <TabItem title='Student'>
-<Student/>
-     </TabItem>
+       <div >
+        <Label htmlFor='content'>Enter description </Label>
    
-   <TabItem title='Accomodation'>
-    <Accomodation/>
+    <ReactQuill
+          theme="snow"
+          placeholder="Write Announcement"
+          className="h-72 mb-5"
+         value={annData.content}
+          onChange={(value) => setAnndata({ ...annData, content: value })}
+         />
 
-     </TabItem>
-     
-     <TabItem title='Campus'>
-<Campus/>
-     </TabItem>
-     
-     
-     <TabItem title='Announcement'>
-  <AnnounceComp/>
-     </TabItem>
-     </Tabs>
 
-    </div></div>
+      </div>
+      
+       <div >
+        <Label htmlFor='image'>  Image </Label>
+    <div className='flex gap-2'>   <FileInput
+       id='image'
+       onChange={(e)=>handleChangeImage(e)}
+       />
+       
+       <Button onClick={uploadImage}>Upload</Button></div>  
+
+       <div className='p-2'>
+        <img src={preview} alt="" />
+      { annData.image &&  <div className='flex text-green-500 p-2'> <FaCheck/> uploaded </div>}
+       </div>
+      </div>
+
+      
+
+       <Button onClick={handleSubmit}>Submit</Button>
+    </ModalBody>
+     </Modal>
+
+
+    </div>
   );
 };
 

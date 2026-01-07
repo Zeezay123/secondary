@@ -1,6 +1,6 @@
 import React from 'react'
 import SecondHero from '../components/SecondHero'
-
+import PortalCTA from '../components/PortalCTA'
 import imaget from '../assets/part.jpg'
 import Divider from '../components/Divider'
 
@@ -130,6 +130,7 @@ So help me God.
             <div className='w-fit p-2 md:px-7 flex items-center justify-center font-[inter] font-medium border-white border-2 text-white rounded'>Students</div>
           </div>
           </div> 
+          <PortalCTA />
         </section>
   )
 }

@@ -32,3 +32,26 @@ dist-ssr
 .env.development
 .env.test
 .env.production
+
+#misc 
+.cache
+.next   
+*.md
+
+
+# Build output
+.astro/build/
+.out/
+
+
+
+
+# Dependency directories
+uploads/
+database/
+.vscode/
+.idea/
+*.sqlite
+*.db
+
+

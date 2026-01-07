@@ -1,8 +1,12 @@
 import React from 'react'
+import PortalCTA from '../components/PortalCTA'
 
 const Senior = () => {
   return (
-    <section>Senior</section>
+    <section>
+      Senior
+      <PortalCTA />
+    </section>
   )
 }
 

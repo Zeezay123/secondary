@@ -54,7 +54,7 @@ const News = () => {
         <>
           <div className="relative pt-[80%] sm:pt-[85%] rounded-xl overflow-hidden">
             <img
-              src={post.image}
+              src={`/uploads/${post.image}`}
               alt={post.title}
               className="size-full absolute top-0 start-0 object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out rounded-xl"
             />

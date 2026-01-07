@@ -3,6 +3,7 @@ import SecondHero from '../components/SecondHero';
 import { Card, Badge, Spinner, Button } from 'flowbite-react';
 import { Link, useParams } from 'react-router-dom';
 import CallToAction from '../components/CallToAction';
+import PortalCTA from '../components/PortalCTA';
 
 const Blog = () => {
   const { postSlug } = useParams();
@@ -170,6 +171,7 @@ const Blog = () => {
 
       {/* Call to Action */}
       <div className="mt-16">
+        <PortalCTA />
         <CallToAction />
       </div>
     </main>

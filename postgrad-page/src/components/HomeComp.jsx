@@ -7,7 +7,7 @@ import { FaAsterisk } from "react-icons/fa";
 
 const HomeComp = () => {
 
-const [aboutfiles, setaboutFiles] = useState({title:"", subtitle:"", intro:""})
+const [aboutfiles, setaboutFiles] = useState('')
 const [errMsg, setErrMsg] = useState('')
 const [successMsg, setSuccessMsg] = useState('')
 
@@ -33,7 +33,7 @@ useEffect(() => {
     try {
          
          setaboutFiles({title:data.title, subtitle:data.subtitle, intro:data.intro})
-         console.log(data)
+ 
          setErrMsg('')
          setSuccessMsg('')
     } catch (error) {
@@ -110,7 +110,7 @@ const  handleSubmit =async (e)=>{
      type='text'
      id='title'
      required
-     value={aboutfiles?.title || ''}
+     value={aboutfiles?.title  }
      onChange={(e)=>{setaboutFiles({...aboutfiles,title: e.target.value})}}
      />
     </div>    
@@ -122,7 +122,7 @@ const  handleSubmit =async (e)=>{
      <TextInput
      type='text'
      id='subtitle'
-     value={aboutfiles?.subtitle || ''}
+     value={aboutfiles?.subtitle }
      required
   
 

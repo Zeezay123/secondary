@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Spinner } from "flowbite-react";
+import PortalCTA from '../components/PortalCTA';
 
 const PostPage = () => {
   const { postSlug } = useParams();
@@ -69,7 +70,7 @@ console.log(data)
       {/* Hero Section */}
       <header className="relative w-full h-[450px] overflow-hidden">
         <img
-          src={post.image}
+          src={`/uploads/${post.image}`}
           alt={post.title}
           className="w-full h-full object-cover"
         />
@@ -104,7 +105,7 @@ console.log(data)
                 className="bg-white rounded-lg shadow hover:shadow-lg transition overflow-hidden"
               >
                 <img
-                  src={relatedPost.image}
+                  src={`/uploads/${relatedPost.image}`}
                   alt={relatedPost.title}
                   className="w-full h-48 object-cover"
                 />
@@ -130,6 +131,7 @@ console.log(data)
           </div>
         </section>
       )}
+      <PortalCTA />
     </main>
   );
 };
