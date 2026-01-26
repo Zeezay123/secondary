@@ -20,7 +20,7 @@ useEffect(()=>{
     fetch(`/api/content/campus`)])
 
 
-   if(!studentRes.ok || !accRes.ok || !camRes){
+   if(!studentRes.ok || !accRes.ok || !camRes.ok){
     console.log([studentRes,accRes, camRes ])
     return
    }
